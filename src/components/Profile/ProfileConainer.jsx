@@ -6,37 +6,42 @@ import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getAccessToken } from "axios-jwt";
 import { getAusUserData, getUserData, setUserId } from "../../redux/actions/actionCreator";
+import {uploadPhotoAva} from "../../redux/actions/actionCreator";
+import {  message } from 'antd';
 
 export const Profile = () => {
-  const accessToken = getAccessToken()
+  const accessToken = getAccessToken();
   const dispatch = useDispatch();
-const uploadPhotoAva =(file)=>{
-  debugger
-}
-  const postUser = useSelector((state)=>state?.userData)
-  const {img_1000_1000} =useSelector((state)=>state?.userData)
-  let { userId } = useParams()
+  const postUser = useSelector((state)=>state.userProfileData);
+  const { userId } = useParams();
+
   const refreshProfile = () => {
     if (!userId) {
       if (accessToken) {
-        dispatch(getAusUserData())
+        dispatch(getAusUserData());
       }
     } else {
-      dispatch(setUserId(userId))
+      dispatch(setUserId(userId));
     }
-    dispatch(getUserData())
-    
+    dispatch(getUserData());
+  }
+  const uploadPhoto=(imgData)=>{
+    dispatch(uploadPhotoAva(imgData));
   }
   useEffect(() => {
-    refreshProfile()
+    refreshProfile();
   }, []);
+  useEffect(() => {
+    refreshProfile();
+  }, [postUser.userData.imgAvatarId]);
   return (
     <div className={classes.content}>
       <PostInfo 
       isOwner={!userId}
-      postUser={postUser}
-      img_1000_1000={img_1000_1000}
-      uploadPhotoAva={uploadPhotoAva} />
+      postUser={postUser.userData}
+      imgAva={postUser}
+      uploadPhoto={uploadPhoto}
+      />
       {/*<MyPostsConainer />*/}
     </div>
   );

@@ -8,15 +8,14 @@ import banner_4 from "../../../assets/images/banner-4.jpg";
 //import ava from "../../../assets/images/ava.png";
 //import { Avatar } from 'antd';
 //import ProfileDataContactForm from './ProfileDataContactForm'
-//import { UserType  } from "../../types/type";
-import { useDispatch } from "react-redux";
 import { Carousel, Col,  Row } from 'antd';
 import { Upload, message, Button } from 'antd';
 import { EditOutlined, UploadOutlined } from '@ant-design/icons';
 import Avatar from "antd/lib/avatar/avatar";
 import moment from "moment";
+import PicturesWall from "./UploadPhotoAva";
 
-export const PostInfo = ({isOwner, postUser,img_1000_1000, uploadPhotoAva})=>{
+export const PostInfo = ({isOwner, postUser,uploadPhoto,imgAva})=>{
     //const isLoader=useSelector((state)=>state.postsPage.isLoader)
     const [editMode,setEditMode] = useState(false)
     if(!postUser){
@@ -30,85 +29,95 @@ export const PostInfo = ({isOwner, postUser,img_1000_1000, uploadPhotoAva})=>{
         //setEditMode(false)
    //}
     //let contact = postUser.contacts
-    /*const onMainPhotoAva =(e:ChangeEvent<HTMLInputElement>)=>{//импорт файла
-        console.log(e);
-        if(e.target.files?.length){
-           savePhoto(e.target.files[0])
-        }
-    }*/
-    const props = {
-        onChange(info) {
-            debugger
-          if (info.file.status !== 'uploading') {
-              debugger
-          }
-          if (info.file.status === 'done') {
-            uploadPhotoAva(info.fileList[0].originFileObj)
-            debugger
-            message.success(`${info.file.name} файл успешно загружен!`);
-          } else if (info.file.status === 'error') {
-            message.error(`${info.file.name} ошибка загрузки файла`);
-          }
-        }
-    }
-
-return(
-<div>
+return (
+  <div>
     <div>
       <Carousel autoplay>
-      <div><img src={banner_1}/></div>
-      <div><img src={banner_2}/></div>
-      <div><img src={banner_3}/></div>
-        <div><img src={banner_4}/></div>
+        <div>
+          <img src={banner_1} />
+        </div>
+        <div>
+          <img src={banner_2} />
+        </div>
+        <div>
+          <img src={banner_3} />
+        </div>
+        <div>
+          <img src={banner_4} />
+        </div>
       </Carousel>
     </div>
-    <div >
-    {/*isLoader? <Loader/>  : null*/}
-    <Row>
+    <div>
+      {/*isLoader? <Loader/>  : null*/}
+      <Row>
         <Col span={8}>
-        <div>
-        <div><h2>{postUser.name +" "+postUser.surname}</h2></div>
-         {/*<PostStatusWithHooks 
+          <div>
+            <div>
+              <h2>{postUser.name + " " + postUser.surname}</h2>
+            </div>
+            {/*<PostStatusWithHooks 
 status={postUser.status} updateStatus={updateStatus}/>*/}
-        </div>
-       <div style={{marginTop:"30px"}} >
-            <Avatar size={200} src={`data:image/jpg;base64,${img_1000_1000}` || Avatar} />
-</div>
-        <div style={{marginTop:"30px"}}>
-            {(editMode===true && isOwner===true)? null : isOwner ? 
-            <div><Button size="small" icon={<EditOutlined />} onClick={()=>setEditMode(true)}>Редактировать </Button></div> : null}
-        </div>
-        { isOwner? <Upload {...props}>
-         <Button size="small" icon={<UploadOutlined />}>Загрузить фото</Button>
-            </Upload>  : null }
+          </div>
+          <div style={{ marginTop: "30px" }}>
+            <Avatar
+              size={200}
+              src={`data:image/jpg;base64,${imgAva.img_1000_1000}` || Avatar}
+            />
+          </div>
+          <div style={{ marginTop: "30px" }}>
+            {editMode === true && isOwner === true ? null : isOwner ? (
+              <div>
+                <Button
+                  size="small"
+                  icon={<EditOutlined />}
+                  onClick={() => setEditMode(true)}
+                >
+                  Редактировать 
+                </Button>
+              </div>
+            ) : null}
+          </div>
+
+          {isOwner ? (
+            <PicturesWall 
+            uploadPhoto={uploadPhoto}/>
+
+          ) : null}
 
         </Col>
-        
+
         <Col span={16}>
-        <div>
-            {editMode? <ProfileDataContact initialValues={postUser}
-            //contact={contact} 
-            //onSubmit={onSubmit}
-            />:
-            //goToEditMode={()=>{ setEditMode(false);} } />: 
-        <ProfileDataContact 
-            //contact={contact} 
-            name={postUser.name}
-            surname={postUser.surname}
-            isOwner={isOwner}
-            aboutMe={postUser.aboutMe}
-           // lookingForAJob={postUser.lookingForAJob}
-            //lookingForAJobDescription={postUser.lookingForAJobDescription}
-            //nestName={postUser.nest}
-            sex={postUser.sex}
-            age={postUser.age}
-            goToEditMode={()=>{setEditMode(true)}} /> }
-        </div>
+          <div>
+            {editMode ? (
+              <ProfileDataContact
+                initialValues={postUser}
+                //contact={contact}
+                //onSubmit={onSubmit}
+              />
+            ) : (
+              //goToEditMode={()=>{ setEditMode(false);} } />:
+              <ProfileDataContact
+                //contact={contact}
+                name={postUser.name}
+                surname={postUser.surname}
+                isOwner={isOwner}
+                aboutMe={postUser.aboutMe}
+                // lookingForAJob={postUser.lookingForAJob}
+                //lookingForAJobDescription={postUser.lookingForAJobDescription}
+                //nestName={postUser.nest}
+                sex={postUser.sex}
+                age={postUser.age}
+                goToEditMode={() => {
+                  setEditMode(true);
+                }}
+              />
+            )}
+          </div>
         </Col>
-    </Row>
+      </Row>
     </div>
-</div>
-)}
+  </div>
+);}
 
 const ProfileDataContact =({
     isOwner,goToEditMode,age,sex,name,surname,aboutMe})=>{

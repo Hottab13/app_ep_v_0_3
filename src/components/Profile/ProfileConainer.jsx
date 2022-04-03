@@ -30,7 +30,7 @@ export const Profile = () => {
   }
   useEffect(() => {
     refreshProfile();
-  }, []);
+  });
   useEffect(() => {
     refreshProfile();
   }, [postUser.userData.imgAvatarId]);

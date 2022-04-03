@@ -1,9 +1,10 @@
 import { useSelector, useDispatch } from "react-redux";
 //import News from './components/news/news';
 import { Login } from "./components/authLogin/Login.jsx";
-import { Events } from "./components/Events/EventsContainer.jsx";
-import { Profile }  from "./components/Profile/ProfileConainer.jsx";
-import { getAusUserData } from "./redux/actions/actionCreator";
+import EventsContainer  from "./components/Events/EventsContainer.jsx";
+import { Profile }  from "./components/Profile/ProfileConainer.jsx"; 
+import { AddEvent }  from "./components/AddEvent/AddEvent";
+import { getAusUserData, getEvents } from "./redux/actions/actionCreator";
 import { getAccessToken } from "axios-jwt";
 import React, { useEffect, useState } from "react";
 //import './App.css';
@@ -20,15 +21,18 @@ const { Header, Content, Footer, Sider } = Layout;
 
 
 const App = () => {
- /* const accessToken = getAccessToken()
-  const dispatch = useDispatch();
-  const { latestNews, popularNews } = useSelector(store => store?.news || {});
-  const { latestNewsError, popularNewsError } = useSelector(store => store?.errors || {});
+// const accessToken = getAccessToken()
+  //const dispatch = useDispatch();
+ // const { latestNews, popularNews } = useSelector(store => store?.news || {});
+  //const { latestNewsError, popularNewsError } = useSelector(store => store?.errors || {});
   //const { _id } = useSelector((store) => store?.userData || {});*/
   /*useEffect(() => {
+    debugger
     if (accessToken) {
       dispatch(getAusUserData())
     }
+    debugger
+    dispatch(getEvents());
   }, []);*/
   
   const [collapsed, setСollapsed] = useState(false);
@@ -42,67 +46,68 @@ const App = () => {
   console.log(collapsed);
   return (
     <Layout>
-    <Sider
-      breakpoint="lg"
-      collapsedWidth="0"
-      onBreakpoint={broken => {
-        console.log(broken);
-      }}
-      onCollapse={(collapsed, type) => {
-        console.log(collapsed, type);
-      }}
-    >
-      <div className="logo" />
-      <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
-        <Menu.Item key="1" icon={<UserOutlined />}>
-          nav 1
-        </Menu.Item>
-        <Menu.Item key="2" icon={<VideoCameraOutlined />}>
-          nav 2
-        </Menu.Item>
-        <Menu.Item key="3" icon={<UploadOutlined />}>
-          nav 3
-        </Menu.Item>
-        <Menu.Item key="4" icon={<UserOutlined />}>
-          nav 4
-        </Menu.Item>
-      </Menu>
-    </Sider>
-    <Layout>
-      <Header className="site-layout-sub-header-background" style={{ padding: 0 }} />
-      <Content style={{ margin: '24px 16px 0' }}>
-        <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+      <Sider
+        breakpoint="lg"
+        collapsedWidth="0"
+        onBreakpoint={(broken) => {
+          console.log(broken);
+        }}
+        onCollapse={(collapsed, type) => {
+          console.log(collapsed, type);
+        }}
+      >
+        <div className="logo" />
+        <Menu theme="dark" mode="inline" defaultSelectedKeys={["4"]}>
+          <Menu.Item key="1" icon={<UserOutlined />}>
+            <Link to="/profile">Профиль</Link>
+          </Menu.Item>
+          <Menu.Item key="2" icon={<VideoCameraOutlined />}>
+            <Link to="/events">События</Link>
+          </Menu.Item>
+          <Menu.Item key="3" icon={<UploadOutlined />}>
+            <Link to="/add-event">Создать событие</Link>
+          </Menu.Item>
+          <Menu.Item key="4" icon={<UserOutlined />}>
+            nav 4
+          </Menu.Item>
+        </Menu>
+      </Sider>
+      <Layout>
+        <Header
+          className="site-layout-sub-header-background"
+          style={{ padding: 0 }}
+        />
+        <Content style={{ margin: "24px 16px 0" }}>
+          <div
+            className="site-layout-background"
+            style={{ padding: 24, minHeight: 360 }}
+          >
             <Routes>
-              {/*<Route exact path="/" render={() => <ProfileContainer /> />
-              <Route path="/dialogs" render={() => <DialogsContainer /> />
-              <Route path="/frends" component={Frends} />
-              <Route path="/settings" component={Settings} />
-              <Route path="/nests" render={() => <Nests />} />
-    <Route path="/addnest" render={() => <AddNest />} />*/}
-              <Route exact path="/" element={<Profile />} />
+              <Route exact path="/profile" element={<Profile />} />
+              <Route path="/profile/:userId" element={<Profile />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/events" element={<EventsContainer />} />
+              <Route path="/events/:eventId" element={<Profile />} /> 
+              <Route path="/add-event" element={<AddEvent />} />
               <Route
-                path="/profile/:userId"
-                element={<Profile />}
-                //component={_id}
-                />
-              <Route path="/login" element={<Login />} /> 
-              <Route path="/events" element={<Events />} />
-              < Route
                 path="*"
                 element={
                   <Result
                     status="404"
                     title="404"
-                    subTitle="К сожалению, посещенная вами страница не существует." />
+                    subTitle="К сожалению, посещенная вами страница не существует."
+                  />
                 }
               />
             </Routes>
-        </div>
-      </Content>
-      <Footer style={{ textAlign: 'center' }}>EventsParty ©2022 Created by Alekseev.A</Footer>
+          </div>
+        </Content>
+        <Footer style={{ textAlign: "center" }}>
+          EventsParty ©2022 Created by Alekseev.A
+        </Footer>
+      </Layout>
     </Layout>
-  </Layout>
-  )
+  );
 };
 
 export default App;

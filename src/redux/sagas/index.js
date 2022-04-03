@@ -1,7 +1,7 @@
 import { takeEvery, put, call, fork, select } from 'redux-saga/effects';
-import { AUTH_USER, AUTH_USER_DATA, GET_USER_DATA, UPLOAD_PHOTO_AVA_USER, GET_EVENTS } from '../constants';
+import { AUTH_USER, AUTH_USER_DATA, GET_USER_DATA, UPLOAD_PHOTO_AVA_USER, GET_EVENTS, SET_NEW_EVENT } from '../constants';
 import { getIsAuthTrue, setUserData, setUserAvatar, setUserPhotoId, setEvents } from '../actions/actionCreator';
-import { getAuthTokenUser, getAuthData, getUserData, getUserAvatar, postUserAva, putUpdataUserData,getEvents } from '../../api/index';
+import { getAuthTokenUser, getAuthData, getUserData, getUserAvatar, postUserAva, putUpdataUserData,getEvents, postNewEvent } from '../../api/index';
 import { setAuthUser } from '../../utils/setAuthToken';
 import { _arrayBufferToBase64 } from '../../utils/arrayBufferToBase64';
 
@@ -40,11 +40,9 @@ export function* hendlerUserUploadWorker() {//загружаем новую ав
   try {
     const {uploadPhotoAvaUser} = yield select(({userProfileData})=>userProfileData);
     const {idImg} = yield call(postUserAva,uploadPhotoAvaUser);
-  debugger
     yield put(setUserPhotoId(idImg))
     const {userData} = yield select(({userProfileData})=>userProfileData);
     const {data} = yield call(putUpdataUserData,userData);
-    debugger
   } catch {
     yield
   }
@@ -53,7 +51,18 @@ export function* hendlerGetEventsWorker() {//дергаем массив соб�
   try {
     const events = yield call(getEvents);
     yield put(setEvents(events))
+  } catch {
+    yield
+  }
+}
+export function* hendlerNewEventWorker() {//добавляем новое событие
+  try {
+    const {userData} = yield select(({userProfileData})=>userProfileData);
+    const {newEvents} = yield select(({events})=>events);
     debugger
+    const res = yield call(postNewEvent,userData._id,newEvents);
+debugger
+    
   } catch {
     yield
   }
@@ -74,13 +83,17 @@ export  function* hendlerUserUploadWatcher(){
 export  function* hendlerGetEventsWatcher(){
   yield fork(hendlerGetEventsWorker);
 }
+export  function* hendlerNewEventWatcher(){
+  yield fork(hendlerNewEventWorker);
+}
 
 export function* watchClickSaga() {
   yield takeEvery(AUTH_USER, hendlerAuthWatcher ); 
   yield takeEvery(AUTH_USER_DATA,hendlerAuthDataWatcher );
   yield takeEvery(GET_USER_DATA, hendlerUserDataWatcher);
   yield takeEvery(UPLOAD_PHOTO_AVA_USER, hendlerUserUploadWatcher);
-  yield takeEvery(GET_EVENTS, hendlerGetEventsWatcher);
+  yield takeEvery(GET_EVENTS, hendlerGetEventsWatcher); 
+  yield takeEvery(SET_NEW_EVENT, hendlerNewEventWatcher);
 }
 
 export default function* rootSaga() {

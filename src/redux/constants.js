@@ -8,4 +8,5 @@ export const SET_USER_ID = "SET_USER_ID";
 export const UPLOAD_PHOTO_AVA_USER = "UPLOAD_PHOTO_AVA_USER";
 export const SET_USER_PHOTO_ID = "SET_USER_PHOTO_ID"; 
 export const GET_EVENTS = "GET_EVENTS"; 
-export const SET_EVENTS = "SET_EVENTS"; 
+export const SET_EVENTS = "SET_EVENTS";  
+export const SET_NEW_EVENT = "SET_NEW_EVENT"; 

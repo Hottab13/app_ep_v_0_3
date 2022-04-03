@@ -53,7 +53,6 @@ export const userAPI = {
 export const profileAPI = {
   //загрузить новую авку юзера
   savePhoto(file) {
-    debugger;
     return instance
       .post(`add-img/`, file)
       .then((res) => res)
@@ -80,7 +79,15 @@ export const profileAPI = {
 
 export const eventsAPI = {
   getEvents() {
-    debugger;
+    //дёрнуть массив событий
+    return instance
+      .get(`events/`)
+      .then((res) => res)
+      .catch((err) => hendlErr(err));
+  },
+  postEvent(id, eventData) {
+    //создать событие
+    debugger
     return instance
       .get(`events/`)
       .then((res) => res)

@@ -1,6 +1,6 @@
 {
-  "name": "redux-saga",
-  "version": "0.1.0",
+  "name": "event_party",
+  "version": "0.3.0",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",

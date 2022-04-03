@@ -1,7 +1,8 @@
-import{SET_EVENTS  } from"../constants";
+import{SET_EVENTS, SET_NEW_EVENT  } from"../constants";
 
 let initialState = {
    eventsData:[],
+   newEvents:{}
 };
 
 const events = (state = initialState, {type,payload}) => {
@@ -11,6 +12,13 @@ const events = (state = initialState, {type,payload}) => {
         return {
           ...state,
           eventsData: [...state.eventsData, ...payload],
+        }; 
+        case SET_NEW_EVENT:
+        debugger;
+        return {
+          ...state,
+          newEvents: { ...state.newEvents,...payload 
+          },
         };
      /* case SET_USER_AVA: //загрузить авку в стейт
         debugger;
@@ -29,12 +37,7 @@ const events = (state = initialState, {type,payload}) => {
           ...state,
           uploadPhotoAvaUser: payload,
         };
-      case SET_USER_PHOTO_ID:
-        debugger;
-        return {
-          ...state,
-          userData: { ...state.userData, imgAvatarId: payload },
-        };*/
+      */
       default:
         return state;
     };

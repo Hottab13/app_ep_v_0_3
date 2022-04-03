@@ -35,4 +35,9 @@ export const getEvents = async () => {// дёргаем события
   const respons = await eventsAPI.getEvents();
   debugger
   return await respons.data;
+}; 
+export const postNewEvent = async (id,eventData) => {// дёргаем события
+  const respons = await eventsAPI.postEvent(id,eventData);
+  debugger
+  return await respons.data;
 };

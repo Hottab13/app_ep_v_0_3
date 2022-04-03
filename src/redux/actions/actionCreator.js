@@ -7,7 +7,9 @@ import {
   GET_USER_DATA,
   SET_USER_ID,
   UPLOAD_PHOTO_AVA_USER,
-  SET_USER_PHOTO_ID
+  SET_USER_PHOTO_ID,
+  GET_EVENTS,
+  SET_EVENTS
 } from "../constants";
 
 export const loginUser =(payload)=>({// данные авторизации
@@ -41,5 +43,12 @@ export const uploadPhotoAva =(payload)=>({ //загрузить авку
 }); 
 export const setUserPhotoId =(payload)=>({ //засетать новое id
   type:SET_USER_PHOTO_ID,
+  payload
+}); 
+export const getEvents =()=>({ //дёрнуть события
+  type:GET_EVENTS,
+}); 
+export const setEvents =(payload)=>({ //дёрнуть события
+  type:SET_EVENTS,
   payload
 });

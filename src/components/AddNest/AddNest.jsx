@@ -72,13 +72,9 @@ const makeField = (Component) => ({ input, meta, children, hasFeedback, label, .
   const ARangePicker = makeField(RangePicker);
   const AInputNumber = makeField(InputNumber);
 
-type LoginFormOwnProps = {
-  // captchaUrl:string |null
-};
+
 const maxLenght = maxLengthCreator(10);
-const AddNestForm: React.FC<
-  InjectedFormProps<NestFormValueType, LoginFormOwnProps> & LoginFormOwnProps
-> = ({error, ...props }) => {
+const AddNestForm = ({error, ...props }) => {
     const { handleSubmit, pristine, reset, submitting } = props;
   /*const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
@@ -137,8 +133,8 @@ const AddNestForm: React.FC<
         placeholder={["От", "До"]}
         hasFeedback
         validate={[requiredField]}
-        onFocus={(e: { preventDefault: () => any }) => e.preventDefault()}
-        onBlur={(e: { preventDefault: () => any }) => e.preventDefault()}
+        onFocus={(e) => e.preventDefault()}
+        onBlur={(e) => e.preventDefault()}
       />
       <FormItem >
       <Field
@@ -220,7 +216,7 @@ const AddNestForm: React.FC<
     </div>
   );
 };
-const validate = (values: { nestName: any; }) => {
+const validate = (values) => {
     const errors = {};
     if (!values.nestName) {
       //errors.nestName = "Required";
@@ -232,23 +228,15 @@ const AddNestReduxForm = reduxForm<NestFormValueType, LoginFormOwnProps>({
   form: "add_nest",
   validate
 })(AddNestForm);
-type NestFormValueType = {
-  nestName: string;
-  nestType: any;
-  nestLocation: string;
-  nestDate: string;
-  nestTime: string;
-  nestAmountMaximum: number;
-  nestAgeRestrictions: number;
-};
-type NestFormValueTypeKey = Extract<keyof NestFormValueType, string>;
+
+
   
-export const AddNest: React.FC = () => {
+export const AddNest = () => {
   //const isAuth = useSelector((state: AppStateType) => state.auth.isAuth);
   //const captchaUrl = useSelector((state:AppStateType)=>state.auth.captchaUrl)
   const dispatch = useDispatch();
 
-  const showResults = (value: any) => {
+  const showResults = (value) => {
     console.log(value)
     //dispatch(loginUser(value.nestName, value.pass));
   };

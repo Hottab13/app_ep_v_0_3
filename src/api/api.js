@@ -77,3 +77,13 @@ export const profileAPI = {
       .catch((err) => hendlErr(err));
   },
 };
+
+export const eventsAPI = {
+  getEvents() {
+    debugger;
+    return instance
+      .get(`events/`)
+      .then((res) => res)
+      .catch((err) => hendlErr(err));
+  },
+};

@@ -1,4 +1,4 @@
-import { authAPI, userAPI, profileAPI  } from "./api";
+import { authAPI, userAPI, profileAPI, eventsAPI  } from "./api";
 
 export const getAuthTokenUser = async (auth) => {// дергаем токен по логину
   const respons = await authAPI.getAuthLogin(auth);
@@ -30,4 +30,9 @@ export const putUpdataUserData = async (userData) => {// загружаем но
   const respons = await profileAPI.updateUserData(userData);
   debugger
   return await respons;
+};
+export const getEvents = async () => {// дёргаем события
+  const respons = await eventsAPI.getEvents();
+  debugger
+  return await respons.data;
 };

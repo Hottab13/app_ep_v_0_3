@@ -17,11 +17,9 @@ import React, { useState } from 'react';
 const { SubMenu } = Menu;
 
 const { Text } = Typography;
-export type DispatchPropsType = {
-  logOut: () => void;
-};
 
-export const HeaderCont: React.FC = (props) => {
+
+export const HeaderCont = (props) => {
   const [visible, setVisible] = useState(false);
   const showDrawer = () => {
     setVisible(true);

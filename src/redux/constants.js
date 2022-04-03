@@ -6,4 +6,6 @@ export const SET_USER_AVA = "SET_USER_AVA";
 export const GET_USER_DATA = "GET_USER_DATA"; 
 export const SET_USER_ID = "SET_USER_ID"; 
 export const UPLOAD_PHOTO_AVA_USER = "UPLOAD_PHOTO_AVA_USER";
-export const SET_USER_PHOTO_ID = "SET_USER_PHOTO_ID";
+export const SET_USER_PHOTO_ID = "SET_USER_PHOTO_ID"; 
+export const GET_EVENTS = "GET_EVENTS"; 
+export const SET_EVENTS = "SET_EVENTS"; 

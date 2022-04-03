@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 //import News from './components/news/news';
 import { Login } from "./components/authLogin/Login.jsx";
+import { Events } from "./components/Events/EventsContainer.jsx";
 import { Profile }  from "./components/Profile/ProfileConainer.jsx";
 import { getAusUserData } from "./redux/actions/actionCreator";
 import { getAccessToken } from "axios-jwt";
@@ -19,11 +20,11 @@ const { Header, Content, Footer, Sider } = Layout;
 
 
 const App = () => {
-  const accessToken = getAccessToken()
+ /* const accessToken = getAccessToken()
   const dispatch = useDispatch();
   const { latestNews, popularNews } = useSelector(store => store?.news || {});
   const { latestNewsError, popularNewsError } = useSelector(store => store?.errors || {});
-  //const { _id } = useSelector((store) => store?.userData || {});
+  //const { _id } = useSelector((store) => store?.userData || {});*/
   /*useEffect(() => {
     if (accessToken) {
       dispatch(getAusUserData())
@@ -84,7 +85,8 @@ const App = () => {
                 element={<Profile />}
                 //component={_id}
                 />
-              <Route path="/login" element={<Login />} />
+              <Route path="/login" element={<Login />} /> 
+              <Route path="/events" element={<Events />} />
               < Route
                 path="*"
                 element={

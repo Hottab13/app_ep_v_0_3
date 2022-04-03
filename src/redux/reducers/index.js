@@ -1,12 +1,14 @@
 import { combineReducers } from 'redux';
 import authUser from "./auth";
 import userProfileData from "./user";
-import { reducer as formReducer } from 'redux-form'
+import events from "./events";
+import { reducer as formReducer } from 'redux-form';
 
 const reducer = combineReducers({
   form: formReducer,
   authUser,
-  userProfileData
+  userProfileData,
+  events
 });
 
 export default reducer;

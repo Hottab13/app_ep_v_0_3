@@ -30,10 +30,8 @@ export const Profile = () => {
   }
   useEffect(() => {
     refreshProfile();
-  });
-  useEffect(() => {
-    refreshProfile();
-  }, [postUser.userData.imgAvatarId]);
+  },[]);
+ 
   return (
     <div className={classes.content}>
       <PostInfo 

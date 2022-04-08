@@ -1,17 +1,17 @@
 //import classes from './Header.module.css';
-import { NavLink } from "react-router-dom";
+import { NavLink, Navigate } from "react-router-dom";
 //import { AppStateType } from "../../redux/ReduxStore";
 import { Header } from "antd/lib/layout/layout";
 import { Button, Menu, Drawer } from "antd";
 import Avatar from "antd/lib/avatar/avatar";
 import { useDispatch, useSelector } from "react-redux";
-import { logOut } from "../../redux/AuthReducer";
+///import { logOut } from "../../redux/AuthReducer";
 import { Typography, Space } from "antd";
-import { UserSearchForm } from "../Nests/Nests";
-import { FilterType, getNests } from "../../redux/NestsReducer";
 import { Row, Col } from "react-grid-system";
-import ava from "../../assets/images/ava.png";
+import {logOut} from "../../redux/actions/actionCreator"
+//import ava from "../../assets/images/ava.png";
 import React, { useState } from 'react';
+import { clearAuthTokens } from "axios-jwt";
 
 
 const { SubMenu } = Menu;
@@ -27,12 +27,14 @@ export const HeaderCont = (props) => {
   const onClose = () => {
     setVisible(false);
   };
-  //const login = useSelector((state: AppStateType) => state.auth );
+  const {isAuth} = useSelector((state) => state.authUser );
   //const img=useSelector((state:AppStateType)=>state.postsPage.photo_1000)
   const dispatch = useDispatch();
   const logOutColbeck = () => {
     dispatch(logOut());
+    clearAuthTokens();
   };
+  if(!isAuth) return <Navigate to={"/login"}/>
   /*const onFilterCheang = (filter: FilterType) => {
     dispatch(getNests(filter));
   };*/
@@ -53,12 +55,12 @@ export const HeaderCont = (props) => {
 </Menu>*/}
         </Col>
         <Col md={1}>
-        
+
           {/*login.isAuth ? <Avatar size={40} src={`data:image/jpg;base64,${img}` || ava}>
             {login.name}</Avatar> : ""*/}
         </Col>
         <Col md={2}>
-          {/*login.isAuth ? (
+          {isAuth ? (
             <div>
               {/* <Avatar size={60}>{login.name}</Avatar>
                     <Text type="success">{login.name} </Text> <Button type="primary" onClick={logOutColbeck}>
@@ -87,23 +89,14 @@ export const HeaderCont = (props) => {
                 <p>Настройки входа</p>
                 <p onClick={logOutColbeck}>Выход</p>
               </Drawer>
-           
+            </div>
           ) : (
             <NavLink to={`/login`}>
               <Button type="primary">Войти</Button>
             </NavLink>
-          )
+          )}
         </Col>
       </Row>
     </Header>
   );
-          };
-/*
-<header className={classes.heder}>
-            <div><h4>ГНЕЗДОСЕТЬ</h4></div>
-            <div className={classes.login}>
-                {isAuth ?
-                <div>{props.login} - <button onClick={props.logOut}>Выйти</button></div> 
-                :<NavLink to={`/login`}>Login:</NavLink>}
-            </div>
-    </header> */
+};

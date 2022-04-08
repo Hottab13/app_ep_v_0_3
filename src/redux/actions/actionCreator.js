@@ -10,7 +10,19 @@ import {
   SET_USER_PHOTO_ID,
   GET_EVENTS,
   SET_EVENTS,
-  SET_NEW_EVENT
+  SET_NEW_EVENT,
+  GET_EVENT_PROFILE,
+  SET_EVENT_PROFILE,
+  DEL_EVENT,
+  IS_TOGGLE_LOADING,
+  ERR_EVENT,
+  SUCCESS_EVENT,
+  CLEAR_TOGGLE,
+  EVENT_USER_NAME,
+  LOGIN_OUT,
+  IS_TOGGLE_LOADING_AUTH,
+  ERR_AUTH,
+  CLEAR_TOGGLE_AUTH
 } from "../constants";
 
 export const loginUser =(payload)=>({// данные авторизации
@@ -53,7 +65,52 @@ export const setEvents =(payload)=>({ //дёрнуть события
   type:SET_EVENTS,
   payload
 }); 
-export const setNewEvent =(payload)=>({ //дёрнуть события
+export const setNewEvent =(payload)=>({ //создать новое событие
   type:SET_NEW_EVENT,
   payload,
+}); 
+export const getEventId =(payload)=>({ //дёрнуть профиль события
+  type:GET_EVENT_PROFILE,
+  payload,
+}); 
+export const setEventProfile =(payload)=>({ //засетать данные события профиля
+  type:SET_EVENT_PROFILE,
+  payload,
+}); 
+export const delEvent =(payload)=>({ //удалить событие
+  type:DEL_EVENT,
+  payload,
+}); 
+export const isToggleLoading =(payload)=>({ //переключатель загрузки
+  type:IS_TOGGLE_LOADING,
+  payload,
+}); 
+export const errEvent =(payload)=>({ //ошибка с ответом
+  type:ERR_EVENT,
+  payload,
+}); 
+export const successEvent =(payload)=>({ //успех с ответом
+  type:SUCCESS_EVENT,
+  payload,
+}); 
+export const clearToggle =()=>({ //очистить проверку
+  type:CLEAR_TOGGLE,
+}); 
+export const eventUserName =(payload)=>({ //очистить проверку
+  type:EVENT_USER_NAME,
+  payload
+}); 
+export const logOut =()=>({ //разлогиниться
+  type:LOGIN_OUT,
+});
+export const isToggleLoadingAuth =(payload)=>({ //откл прелоудер
+  type:IS_TOGGLE_LOADING_AUTH,
+  payload
+});
+export const errAuth =(payload)=>({ //ошибка и её сообщение
+  type:ERR_AUTH,
+  payload
+}); 
+export const clearToggleAuth =()=>({ //ошибка и её сообщение
+  type:CLEAR_TOGGLE_AUTH
 });

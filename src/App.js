@@ -3,8 +3,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { Login } from "./components/authLogin/Login.jsx";
 import EventsContainer  from "./components/Events/EventsContainer.jsx";
 import { Profile }  from "./components/Profile/ProfileConainer.jsx"; 
-import { AddEvent }  from "./components/AddEvent/AddEvent";
-import { getAusUserData, getEvents } from "./redux/actions/actionCreator";
+import { HeaderCont }  from "./components/Haeder/Header.jsx";
+import { AddEvent }  from "./components/AddEvent/AddEvent"; 
+import { EventProfileContainer }  from "./components/EventProfile/EventProfileConainer.jsx";
+import { getAusUserData, getIsAuthTrue } from "./redux/actions/actionCreator";
+import {AUTH_USER_DATA, IS_AUTH_TRUE} from "./redux/constants"
 import { getAccessToken } from "axios-jwt";
 import React, { useEffect, useState } from "react";
 //import './App.css';
@@ -21,19 +24,22 @@ const { Header, Content, Footer, Sider } = Layout;
 
 
 const App = () => {
-// const accessToken = getAccessToken()
-  //const dispatch = useDispatch();
+  const accessToken = getAccessToken()
+  const dispatch = useDispatch();
  // const { latestNews, popularNews } = useSelector(store => store?.news || {});
   //const { latestNewsError, popularNewsError } = useSelector(store => store?.errors || {});
   //const { _id } = useSelector((store) => store?.userData || {});*/
-  /*useEffect(() => {
+  useEffect(() => {
     debugger
     if (accessToken) {
-      dispatch(getAusUserData())
+      debugger
+      //dispatch(getAusUserData()); type:AUTH_USER_DATA
+      dispatch({type:AUTH_USER_DATA});// получить данные профиля по токену
+      dispatch({type:IS_AUTH_TRUE});//включить авторизацию
+      //dispatch(getIsAuthTrue());
     }
-    debugger
-    dispatch(getEvents());
-  }, []);*/
+    
+  }, []);
   
   const [collapsed, setСollapsed] = useState(false);
   
@@ -46,6 +52,7 @@ const App = () => {
   console.log(collapsed);
   return (
     <Layout>
+      <HeaderCont/>
       <Sider
         breakpoint="lg"
         collapsedWidth="0"
@@ -56,7 +63,7 @@ const App = () => {
           console.log(collapsed, type);
         }}
       >
-        <div className="logo" />
+        <div className="logo"  style={{ paddingTop: 60 }} />
         <Menu theme="dark" mode="inline" defaultSelectedKeys={["4"]}>
           <Menu.Item key="1" icon={<UserOutlined />}>
             <Link to="/profile">Профиль</Link>
@@ -87,7 +94,7 @@ const App = () => {
               <Route path="/profile/:userId" element={<Profile />} />
               <Route path="/login" element={<Login />} />
               <Route path="/events" element={<EventsContainer />} />
-              <Route path="/events/:eventId" element={<Profile />} /> 
+              <Route path="/events/:eventId" element={<EventProfileContainer />} /> 
               <Route path="/add-event" element={<AddEvent />} />
               <Route
                 path="*"

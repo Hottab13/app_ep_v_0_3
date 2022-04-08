@@ -1,16 +1,16 @@
 import React from 'react'
-import { connect, useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Navigate } from 'react-router-dom'
-import { InjectedFormProps, reduxForm } from 'redux-form'
-import { loginUser} from '../../redux/actions/actionCreator'
-import {createField, InputControl} from '../../FormControl/FormControl'
+import { reduxForm } from 'redux-form'
+import { loginUser } from '../../redux/actions/actionCreator'
+import { createField } from '../../utils/createFields'
 import { maxLengthCreator, requiredField } from '../../utils/validators'
-import style from '../../FormControl/FormControl.css'
-//import { AppStateType } from '../../redux/ReduxStore'
-/*************************************** */
-import { Form, Input, Button, Checkbox } from 'antd';
+import {AInputPass, AInput, ACheckbox} from '../../utils/makeField'
+//import style from '../../FormControl/FormControl.css'
+import { Form, Input, Button, Checkbox, Alert } from 'antd';
 
 const FormItem = Form.Item;
+const maxLenght = maxLengthCreator(30);
 
 const layout = {
   labelCol: { span: 8 },
@@ -20,74 +20,45 @@ const tailLayout = {
   wrapperCol: { offset: 8, span: 6 },
 };
 
-/************************************************* */
-const NewInput = ({
-    ...rest
-}) => {
-return (
-<FormItem>
-<Input rows={4} {...rest.input} />
-</FormItem>);
-};
-const NewInputPass = ({
-    ...rest
-}) => {
-return (
-<FormItem>
-<Input.Password rows={4} {...rest.input} />
-</FormItem>);
-};
-const NewCheckbox = ({
-    ...rest
-}) => {
-return (
-<FormItem>
-<Checkbox  {...rest.input}>Remember me</Checkbox>
-</FormItem>);
-};
-
-const maxLenght = maxLengthCreator(30)
-const LoginForm =({handleSubmit, error }) =>{
+const LoginForm = ({ handleSubmit, message, isToggleLoading, isToggleErr }) => {
     return (
         <form onSubmit={handleSubmit}>
-        {createField("Login","login",undefined,[requiredField, maxLenght],NewInput)}
-        {createField("Password","pass",undefined,[requiredField, maxLenght],NewInputPass,{type:"password"})}
-        {createField(undefined,"remember_me",undefined,[],NewCheckbox,{type:"checkbox"})}
-        {/*<FormItem label="Username" rules={[{ required: true, message: 'Please input your username!' }]}>
-            {createField("Login","login",undefined,[requiredField, maxLenght],NewInput)}
-        </FormItem>
-        <FormItem label="Password" rules={[{ required: true, message: 'Please input your password!' }]}>
-            {createField("Password","pass",undefined,[requiredField, maxLenght],NewInputPass,{type:"password"})}
-        </FormItem>
-        <FormItem {...tailLayout} name="remember_me" valuePropName="checked"> 
-            {createField(undefined,"remember_me",undefined,[],NewCheckbox,{type:"checkbox"})}
-        </FormItem>
-        <FormItem {...tailLayout}>{error &&<div className={style.formSummaryError}>{error}</div>}</FormItem>
-*/}  
+            {createField("Login", "login", undefined, [requiredField, maxLenght], AInput)}
+            {createField("Password", "pass", undefined, [requiredField, maxLenght], AInputPass, { type: "password" })}
+            {createField(undefined, "remember_me", undefined, [], ACheckbox, { type: "checkbox" }, "Запомнить меня(функция не работает)")}
+            <FormItem >
+                {isToggleErr && <Alert message={message} type="error" />}
+            </FormItem>
             <div>
-            <FormItem {...tailLayout}>
-            <Button type="primary" htmlType="submit">Login</Button>
+                <FormItem {...tailLayout}>
+                    <Button
+                        type="primary"
+                        htmlType="submit"
+                        disabled={isToggleErr}
+                        loading={isToggleLoading}
+                        style={{ marginRight: "10px" }}
+                    >Вход</Button>
                 </FormItem>
             </div>
         </form>
-       )
+    )
 }
-//const LoginReduxForm = reduxForm<LoginFormValueType,LoginFormOwnProps>({form:'login'})(LoginForm);
 const LoginReduxForm = reduxForm({form:'login'})(LoginForm);
 
 export const Login =() =>{
-const { isAuth } = useSelector(store => store?.authUser);
-//const captchaUrl = useSelector((state:AppStateType)=>state.auth.captchaUrl)
+const authUser = useSelector(store => store.authUser);
 const dispatch = useDispatch() 
     const onSubmit = (value)=>{
-        debugger
         dispatch(loginUser(value) )
     }
-    if(isAuth) return <Navigate to={"/"}/>
-    
+    if(authUser.isAuth) return <Navigate to={"/profile"}/>
     return (
         <div style={{padding:"16px"}}>
-           <LoginReduxForm onSubmit={onSubmit}/>
+           <LoginReduxForm 
+           message={authUser.message}
+           isToggleLoading={authUser.isToggleLoading}
+           isToggleErr={authUser.isToggleErr}
+           onSubmit={onSubmit}/>
         </div>
     )
 }

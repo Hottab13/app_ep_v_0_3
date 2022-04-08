@@ -5,7 +5,8 @@ const accessToken = getAccessToken();
 
 const instance = Axios.create({
   withCredentials:true,// отправлять куки
-  baseURL: "http://188.225.42.218:4741/api",
+ // baseURL: "http://188.225.42.218:4741/api",
+  baseURL: "http://localhost:4741/api",
   responseType: "json",
   headers: {
     'Accept': 'application/json',
@@ -85,11 +86,37 @@ export const eventsAPI = {
       .then((res) => res)
       .catch((err) => hendlErr(err));
   },
+  getEventProfile(eventId) {
+    //дёрнуть профиль события
+    return instance
+      .get(`event/${eventId}`)
+      .then((res) => res)
+      .catch((err) => hendlErr(err));
+  },
   postEvent(id, eventData) {
     //создать событие
-    debugger
     return instance
-      .get(`events/`)
+      .post(`add-event/`, {
+        ownerUser: id,
+        name: eventData.name,
+        locationLat:"54.19484846374912",
+        locationLon:"45.182281439192195",
+        address: eventData.address,
+        city: eventData.city,
+        type: eventData.type,
+        dateOfTheEvent: eventData.dateOfTheEvent,
+        ageRestrictions: eventData.ageRestrictions,
+        amountMaximum: eventData.amountMaximum,
+        description:eventData.description,
+        imgAvatarId:eventData.imgAvatarId
+      })
+      .then((res) => res)
+      .catch((err) => hendlErr(err));
+  },
+  delEvent(eventId) {
+    //удаляем событие
+    return instance
+      .delete(`event/${eventId}`)
       .then((res) => res)
       .catch((err) => hendlErr(err));
   },

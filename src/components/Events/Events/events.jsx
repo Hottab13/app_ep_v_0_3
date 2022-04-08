@@ -1,11 +1,13 @@
-import { Avatar, Button, Image, Input } from "antd";
+import { Avatar,Statistic, Button, Image, Input } from "antd";
 import { Container, Row, Col } from 'react-grid-system';
 import { AntDesignOutlined, AudioOutlined } from "@ant-design/icons";
 //import Loader from '../Loader';
 import { NavLink } from "react-router-dom";
+import moment from "moment";
+const { Countdown } = Statistic;
+
 
 const Events =({events})=>{
-
 
     return(<div>
 {events.map(
@@ -17,7 +19,7 @@ const Events =({events})=>{
           address,
           city,
           type,
-          finalData,
+          dateOfTheEvent,
           ageRestrictions,
           amountMaximum,
           imgAvatarId,
@@ -25,13 +27,13 @@ const Events =({events})=>{
         }) => (
           <Row  style={{ marginTop: "12px" }}>
             <Col md={5} debug>
-              <NavLink to={`events/` + _id}>
-                <h1>{name || ""}</h1>
+              <NavLink to={`` + _id}>
+                <h1>{name}</h1>
         </NavLink>
-              <p>Тип:{type || ""}</p>
-              <p>Возрастное ограничение:{ageRestrictions || ""}</p>
-              <p>Мест:{amountMaximum || ""}</p>
-              <p>Дата создания:{createdAt || ""}</p>
+              <p>Тип:{type}</p>
+              <p>Возрастное ограничение:{ageRestrictions+" +"}</p>
+              <p>Оставшиеся места:{amountMaximum}</p>
+              <p><h6>Событие создано:{moment.utc(createdAt).format('DD/MM/YYYY') || ""}</h6></p>
               <div style={{ marginTop: "20px" }}>
                 {/*u.followed ? (
           <Button
@@ -61,8 +63,10 @@ const Events =({events})=>{
             </Col>
 
             <Col md={4} debug>
-              <p>Место:{address || ""}</p>
-              <p>Дата:{finalData || ""}</p>
+              <p>Место:{address}</p>
+              <p>Начало события:{moment.utc(dateOfTheEvent[0]).format('DD/MM/YYYY')}</p>
+              <p>Окончание события:{moment.utc(dateOfTheEvent[1]).format('DD/MM/YYYY')}</p>
+              <Countdown title="Событие начнёться через: " value={dateOfTheEvent[0]} format="D Д HH:mm:ss" onFinish={console.log("Старт!")} />
             </Col>
 
             <Col md={3} debug>

@@ -10,3 +10,16 @@ export const SET_USER_PHOTO_ID = "SET_USER_PHOTO_ID";
 export const GET_EVENTS = "GET_EVENTS"; 
 export const SET_EVENTS = "SET_EVENTS";  
 export const SET_NEW_EVENT = "SET_NEW_EVENT"; 
+export const GET_EVENT_PROFILE = "GET_EVENT_PROFILE";
+export const SET_EVENT_PROFILE = "SET_EVENT_PROFILE";
+export const DEL_EVENT = "DEL_EVENT"; 
+export const IS_TOGGLE_LOADING = "IS_TOGGLE_LOADING";
+export const ERR_EVENT = "ERR_EVENT";
+export const SUCCESS_EVENT = "SUCCESS_EVENT"; 
+export const CLEAR_TOGGLE = "CLEAR_TOGGLE";
+export const EVENT_USER_NAME = "EVENT_USER_NAME"; 
+export const LOGIN_OUT = "LOGIN_OUT"; 
+export const IS_TOGGLE_LOADING_AUTH = "IS_TOGGLE_LOADING_AUTH"; 
+export const ERR_AUTH = "ERR_AUTH"; 
+export const CLEAR_TOGGLE_AUTH = "CLEAR_TOGGLE_AUTH";
+

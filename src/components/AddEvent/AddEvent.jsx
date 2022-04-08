@@ -1,43 +1,20 @@
 import React from "react";
-import { connect, useDispatch, useSelector } from "react-redux";
-import { Link, Redirect } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { Field, reduxForm } from "redux-form";
-//import { createField, InputControl } from "../../FormControl/FormControl";
-import { maxLengthCreator, requiredField } from "../../utils/validators"; 
+import { maxLengthCreator, requiredField } from "../../utils/validators";
 import { setNewEvent } from "../../redux/actions/actionCreator";
-import { makeField } from "../../utils/makeField";
-//import style from "../../FormControl/FormControl";
+import { AInput, ATextarea, ARangePicker, AInputNumber, ASelect , Option} from "../../utils/makeField";
+import { createField, createFieldSelect } from '../../utils/createFields'
 import {
   Form,
-  Input,
   Button,
-  Checkbox,
-  Select,
-  DatePicker,
-  Radio,
-  InputNumber,
   PageHeader,
+  Alert
 } from "antd";
 
-
-
 const FormItem = Form.Item;
-const RadioGroup = Radio.Group;
-const { Option } = Select;
-const { TextArea } = Input;
-const { RangePicker } = DatePicker;
-//const { Number } = InputNumber;
 
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 6 }
-  },
-  wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 14 }
-  }
-};
 const tailFormItemLayout = {
     wrapperCol: {
       xs: {
@@ -51,20 +28,11 @@ const tailFormItemLayout = {
     }
   };
 
-
-  
-  const AInput = makeField(Input);
-  //const ARadioGroup = makeField(RadioGroup);
-  const ASelect = makeField(Option);
-  //const ACheckbox = makeField(Checkbox);
-  const ATextarea = makeField(TextArea);
-  const ARangePicker = makeField(RangePicker);
-  const AInputNumber = makeField(InputNumber);
-
-const maxLenght = maxLengthCreator(30);
-const AddEventForm = ({error,handleSubmit, ...props }) => {
+const maxLenght = maxLengthCreator(100);
+const AddEventForm = ({success,err,message,isToggleLoading,error,handleSubmit, ...props }) => {
     const { pristine, reset, submitting } = props;
-
+    const optionsCiti = [{value:"Саранск"},{value:"Москва"},{value:"Санкт-Петербург"} ];
+    const optionsType = [{value:"Активный отды"},{value:"Другое"},{value:"Релакс"} ];
   return (
     <div>
       <PageHeader
@@ -74,40 +42,12 @@ const AddEventForm = ({error,handleSubmit, ...props }) => {
         //subTitle="Форма создания нового гнезда"
       />
       <form onSubmit={handleSubmit} style={{ paddingTop: "16px" }}>
-        <Field
-          label="Название"
-          name="name"
-          component={AInput}
-          placeholder="Введите название события"
-          validate={[requiredField, maxLenght]}
-          hasFeedback
-          validateStatus="success"
-        />
-<FormItem {...formItemLayout}>
-        <Field
-          label="Тип события"
-          name="type"
-          component="select"
-          defaultValue="lucy"
-          style={{ width: 120 }}
-          validate={[requiredField]}
-        >
-          <option></option>
-          <option value="Активный отды">Активный отды</option>
-          <option value="Другое">Другое</option>
-          <option value="Релакс">Релакс</option>
-        </Field>
-        </FormItem>
-        <Field
-          label="Описание"
-          name="description"
-          component={ATextarea}
-          validate={[requiredField, maxLengthCreator(1000)]}
-        />
-
+        {createField("Введите название события", "name", "Название", [requiredField, maxLenght], AInput)}
+        {createFieldSelect("Выберите тип", "type", "Тип события", [requiredField], ASelect, optionsType)}
+        {createField("Введите описание", "description", "Описание события", [requiredField, maxLengthCreator(2000)], ATextarea)}
         <Field
           label="Дата проведения"
-          name="finalData"
+          name="dateOfTheEvent"
           component={ARangePicker}
           placeholder={["От", "До"]}
           hasFeedback
@@ -115,54 +55,45 @@ const AddEventForm = ({error,handleSubmit, ...props }) => {
           onFocus={(e) => e.preventDefault()}
           onBlur={(e) => e.preventDefault()}
         />
-        <FormItem {...formItemLayout}>
-          <Field
-            label="Город"
-            name="city"
-            component="select"
-            validate={[requiredField]}
-          >
-            <option></option>
-            <option value="Саранск">Саранск</option>
-            <option value="Москва">Москва</option>
-            <option value="Санкт-Петербург">Санкт-Петербург</option>
-          </Field>
-          </FormItem>
-        <Field
-          label="Адрес"
-          name="address"
-          component={AInput}
-          placeholder="Введите название"
-          validate={[requiredField, maxLenght]}
-          hasFeedback
-          validateStatus="success"
-        />
+        {createFieldSelect("Выберите город", "city", "Город события", [requiredField], ASelect, optionsCiti)}
+        {createField("Введите адрес", "address", "Адрес проведения события", [requiredField, maxLengthCreator(100)], AInput)}
         <Field
           label="Количество мест"
-          name="eventAmountMaximum"
+          name="amountMaximum"
           component={AInputNumber}
           validate={[requiredField]}
+          min={1}
+          max={1000}
+          defaultValue={1}
         />
         <Field
           label="Возраст. огран."
-          name="eventAgeRestrictions"
+          name="ageRestrictions"
           component={AInputNumber}
           validate={[requiredField]}
+          min={18}
+          max={100}
+          defaultValue={18}
+          formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+          parser={value => value.replace(/\+\s?|(,*)/g, '')}
         />
 
         <FormItem {...tailFormItemLayout}>
-          {error && <div>{error}</div>}
-          </FormItem>
-          <FormItem {...tailFormItemLayout}>
+          {err ? <Alert message={"Ошибка: " + message} type="error" /> :
+            success ?
+              <Alert message={"Событие успешно создано: " + message} type="success" />
+              : ""}
+        </FormItem>
+        <FormItem {...tailFormItemLayout}>
           <Button
             type="primary"
             htmlType="submit"
-            disabled={pristine || submitting}
+            disabled={pristine || submitting || err || success}
+            loading={isToggleLoading}
             style={{ marginRight: "10px" }}
           >
             Создать
           </Button>
-
           <Button disabled={pristine || submitting} onClick={reset}>
             Очистить
           </Button>
@@ -176,20 +107,16 @@ const validate = (values) => {
     if (!values.nestName) {
       //errors.nestName = "Required";
     }
-  
     return errors;
   };
-
 const AddEventReduxForm = reduxForm({
   form: "add_event",
   //validate
 })(AddEventForm);
 
-
-  
 export const AddEvent = () => {
   const dispatch = useDispatch();
-
+  const events = useSelector((state)=>state.events);
   const showResults = (value) => {
     debugger
     dispatch(setNewEvent(value))
@@ -199,7 +126,13 @@ export const AddEvent = () => {
     }*/
   return (
     <div >
-      <AddEventReduxForm onSubmit={showResults} />
+      <AddEventReduxForm 
+      onSubmit={showResults}
+      isToggleLoading={events.isToggleLoading}
+      err={events.isToggleErr} 
+      success={events.isToggleSuccess} 
+      message={events.message}
+       />
     </div>
   );
 };

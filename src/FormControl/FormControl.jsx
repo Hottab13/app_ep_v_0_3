@@ -1,6 +1,5 @@
-//import { FiledValidatoeType } from '../../utils/validators';
 import React from "react";
-import { Field, WrappedFieldMetaProps, WrappedFieldProps } from "redux-form";
+import { Field } from "redux-form";
 import styles from "./FormControl.css"
 
 const FormControl =({meta:{touched,error},children})=>{
@@ -22,6 +21,26 @@ export const InputControl=(props)=>{
     const  {input,meta,...restProps} = props
     return<FormControl {...props}><input {...restProps} {...input}/></FormControl>
 } 
+export const createFieldSelect=(
+  placeholder,
+  name,
+  label,
+  validate,
+  component,
+  options
+)=> {
+  return (
+      <Field
+        placeholder={placeholder}
+        name={name}
+        label={label}
+        validate={validate}
+        component={component}
+        options={options}
+        onBlur={e => { e.preventDefault(); }}
+      />
+  );
+}
 
 export const createField=(
   placeholder,
@@ -30,10 +49,9 @@ export const createField=(
   validate,
   component,
   props = {},
-  text = ""
+  text = "",
 )=> {
   return (
-    <div>
       <Field
         placeholder={placeholder}
         name={name}
@@ -42,7 +60,5 @@ export const createField=(
         component={component}
         {...props}
       />
-      {text}
-    </div>
   );
 }

@@ -5,14 +5,14 @@ const accessToken = getAccessToken();
 
 const instance = Axios.create({
   withCredentials:true,// отправлять куки
- // baseURL: "http://188.225.42.218:4741/api",
-  baseURL: "http://localhost:4741/api",
+ baseURL: "http://188.225.42.218:4741/api",
+  //baseURL: "http://localhost:4741/api",
   responseType: "json",
   headers: {
     'Accept': 'application/json',
-    'Content-Type': 'application/json',
-    //'Content-Type': 'multipart/form-data',
-    'Authorization': accessToken ? `${accessToken}` : "",
+    //'Content-Type': 'application/json',
+    'Content-Type': 'multipart/form-data',
+    'Authorization': accessToken && `${accessToken}`,
   },
 });
 

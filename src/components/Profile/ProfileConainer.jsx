@@ -4,27 +4,23 @@ import {PostInfo} from "./PostInfo/PostsInfo";
 //import MyPostsConainer from "./MyPosts/MyPostsContainer";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getAccessToken } from "axios-jwt";
-import { getAusUserData, getUserData, setUserId } from "../../redux/actions/actionCreator";
+import { setUserId, getUserData } from "../../redux/actions/actionCreator"; 
 import {uploadPhotoAva} from "../../redux/actions/actionCreator";
 import {  message } from 'antd';
 
 export const Profile = () => {
-  const accessToken = getAccessToken();
   const dispatch = useDispatch();
   const postUser = useSelector((state)=>state.userProfileData);
   const { userId } = useParams();
 
   const refreshProfile = () => {
-    if (!userId) {
-      if (accessToken) {
-        dispatch(getAusUserData());
-      }
-    } else {
+    if (userId) {
       dispatch(setUserId(userId));
+      dispatch(getUserData(userId));
     }
-    dispatch(getUserData());
+    //dispatch({type:AUTH_USER_DATA});
   }
+
   const uploadPhoto=(imgData)=>{
     dispatch(uploadPhotoAva(imgData));
   }

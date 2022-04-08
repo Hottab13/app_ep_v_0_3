@@ -14,12 +14,14 @@ export const getAuthData = async () => {// дергаем данные юзер�
 
 export const getUserAvatar = async (imgAvatarId) => {// дерагем авку по id 
   const respons = await userAPI.getUserAvatar(imgAvatarId);
+  debugger
   const img_1000_1000 = respons.data.img_1000_1000.data.data;
   return await img_1000_1000;
 };
 
 export const getUserData = async (userId) => {// дергаем данные юзера по id
   const respons = await userAPI.getUserData(userId);
+  debugger
   return await respons;
 }; 
 export const postUserAva = async (file) => {// загружаем новое фото

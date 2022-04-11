@@ -4,7 +4,8 @@ import {
   call,
   fork,
   select,
-  all
+  all,
+  spawn
 } from 'redux-saga/effects';
 import {
   AUTH_USER,
@@ -18,7 +19,7 @@ import {
   IS_AUTH_TRUE
 } from '../constants';
 import {
-  getIsAuthTrue,
+  //getIsAuthTrue,
   setUserData,
   setUserAvatar,
   setUserPhotoId,
@@ -195,13 +196,13 @@ export function* watchDelEvent() {
 
 export default function* rootSaga() {
   yield all([
-    fork (watchAuthUser),
-    fork (watchAuthUserData),
-    fork (watchUserData), 
-    fork (watchUploadPhotoUserAva), 
-    fork (watchEvents), 
-    fork (watchNewEvent),
-    fork (watchEventProfile),
-    fork (watchDelEvent),
+    spawn (watchAuthUser),
+    spawn (watchAuthUserData),
+    spawn (watchUserData), 
+    spawn (watchUploadPhotoUserAva), 
+    spawn (watchEvents), 
+    spawn (watchNewEvent),
+    spawn (watchEventProfile),
+    spawn (watchDelEvent),
   ])
 }

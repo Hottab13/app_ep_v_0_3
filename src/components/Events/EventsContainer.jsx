@@ -9,7 +9,7 @@ const EventsContainer = () => {
   useEffect(() => {
     debugger;
     dispatch({type:GET_EVENTS});
-  },[]);
+  },[dispatch]);
   /*const filter = useSelector((state: AppStateType) => state.nests.filter);
   const nests = useSelector((state: AppStateType) => state.nests.nests);
   const pagination = useSelector(

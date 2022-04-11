@@ -5,7 +5,7 @@ import React, { useState } from "react";
 //import { Avatar } from 'antd';
 //import ProfileDataContactForm from './ProfileDataContactForm'
 import {  Col,  Row } from 'antd';
-import { Upload, message, Button } from 'antd';
+import { Upload, message, Button, Modal } from 'antd';
 import { EditOutlined, UploadOutlined } from '@ant-design/icons';
 import Avatar from "antd/lib/avatar/avatar";
 import moment from "moment";
@@ -18,10 +18,26 @@ export const EventProfile = ({isOwner, eventProfile,hendlDelEvent,delEventProfil
     //if(!postUser){
         //return <Loader/>
     //}
-    if(delEventProfile) {
-      debugger
-      return <Navigate to={"/events"}/>
+    //hendlDelEvent()
+    const countDown=()=> {
+      let secondsToGo = 10;
+      const modal = Modal.success({
+        title: 'Удаление события',
+        content: `Событие будет удалено через ${secondsToGo} секунд.`,
+      });
+      const timer = setInterval(() => {
+        secondsToGo -= 1;
+        modal.update({
+          content: `Событие будет удалено через ${secondsToGo} секунд.`,
+        });
+      }, 1000);
+      setTimeout(() => {
+        clearInterval(timer);
+        modal.destroy();
+      }, secondsToGo * 1000);
     }
+    
+    
 return (
   <div>
     <div>
@@ -44,7 +60,7 @@ status={postUser.status} updateStatus={updateStatus}/>*/}
           </div>
 
           <div style={{ marginTop: "30px" }}>
-            {editMode === true && isOwner === true ? null : isOwner ? (
+            {/*isOwner  &&  */(
               <div>
                 <Button
                   size="small"
@@ -57,12 +73,12 @@ status={postUser.status} updateStatus={updateStatus}/>*/}
               <Button
                 size="small"
                 icon={<EditOutlined />}
-                onClick={() => hendlDelEvent()}
+                onClick={() => countDown()}
               >
                 Удалить
               </Button>
             </div>
-            ) : null}
+            )}
           </div>
 
           {/*isOwner ? (

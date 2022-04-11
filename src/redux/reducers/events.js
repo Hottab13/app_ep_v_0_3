@@ -8,7 +8,8 @@ import {
   ERR_EVENT,
   SUCCESS_EVENT,
   CLEAR_TOGGLE,
-  EVENT_USER_NAME
+  EVENT_USER_NAME,
+  IS_TOGGLE_DEL_EV_FALSE
 } from "../constants";
 
 let initialState = {
@@ -30,7 +31,7 @@ let initialState = {
     imgAvatarId: "",
     users: ""
   },
-  delEventProfile:false,
+  isToggleDelEventProfile:false,
   isToggleLoading:false,
   message:"",
   isToggleErr:false,
@@ -50,6 +51,7 @@ const events = (state = initialState, {
       return {
         ...state,
         eventsData: [...payload],
+        isToggleDelEventProfile:false
       };
       case EVENT_USER_NAME:
       return {
@@ -119,14 +121,18 @@ const events = (state = initialState, {
           imgAvatarId:payload.imgAvatarId,
           users:payload.users
         },
-        delEventProfile:false
       }; 
       case DEL_EVENT:
       return {
         ...state,
         eventProfile: {...payload},
-        delEventProfile:true
+        isToggleDelEventProfile:true
       };
+      /*case IS_TOGGLE_DEL_EV_FALSE:
+        return {
+          ...state,
+          isToggleDelEventProfile:false
+        };*/
     default:
       return state;
   };

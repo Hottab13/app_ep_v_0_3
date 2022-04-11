@@ -22,15 +22,18 @@ debugger
   useEffect(() => {
     debugger
     dispatch(getEventId(eventId));
-  },[]);
+  },[eventId]);
 
+  if(event.isToggleDelEventProfile) {
+    debugger
+    return <Navigate to={"/events"}/>
+  }
   return (
     <div className={classes.content}>
     <EventProfile
       isOwner={event.eventProfile.ownerUser===id}
       eventProfile={event.eventProfile}
       hendlDelEvent={hendlDelEvent}
-      delEventProfile={event.delEventProfile}
       eventUserName={event.eventUserName}
       />
       {/*<MyPostsConainer />*/}

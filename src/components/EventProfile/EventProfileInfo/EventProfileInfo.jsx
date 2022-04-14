@@ -1,42 +1,29 @@
 import React, { useState } from "react";
-//import Loader from "../../Loader";
-//import PostStatusWithHooks from "./PostStatusWithHooks";
-//import ava from "../../../assets/images/ava.png";
-//import { Avatar } from 'antd';
-//import ProfileDataContactForm from './ProfileDataContactForm'
 import {  Col,  Row } from 'antd';
 import { Upload, message, Button, Modal } from 'antd';
 import { EditOutlined, UploadOutlined } from '@ant-design/icons';
 import Avatar from "antd/lib/avatar/avatar";
 import moment from "moment";
-import PicturesWall from "./UploadPhotoAva";
-import {Navigate , NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
-export const EventProfile = ({isOwner, eventProfile,hendlDelEvent,delEventProfile,eventUserName})=>{
+const ReachableContext = React.createContext();
+const UnreachableContext = React.createContext();
+
+const config = {
+  title: 'Вы действительно хотите удалить событие?',
+  content: (
+    <>
+      {/*<ReachableContext.Consumer>{name => `Reachable: ${name}!`}</ReachableContext.Consumer>
+      <br />
+  <UnreachableContext.Consumer>{name => `Unreachable: ${name}!`}</UnreachableContext.Consumer>*/}
+    </>
+  ),
+};
+
+export const EventProfile = ({isOwner, eventProfile,hendlDelEvent,eventUserName})=>{
     debugger
     const [editMode,setEditMode] = useState(false)
-    //if(!postUser){
-        //return <Loader/>
-    //}
-    //hendlDelEvent()
-    const countDown=()=> {
-      let secondsToGo = 10;
-      const modal = Modal.success({
-        title: 'Удаление события',
-        content: `Событие будет удалено через ${secondsToGo} секунд.`,
-      });
-      const timer = setInterval(() => {
-        secondsToGo -= 1;
-        modal.update({
-          content: `Событие будет удалено через ${secondsToGo} секунд.`,
-        });
-      }, 1000);
-      setTimeout(() => {
-        clearInterval(timer);
-        modal.destroy();
-      }, secondsToGo * 1000);
-    }
-    
+    const [modal, contextHolder] = Modal.useModal();
     
 return (
   <div>
@@ -60,7 +47,7 @@ status={postUser.status} updateStatus={updateStatus}/>*/}
           </div>
 
           <div style={{ marginTop: "30px" }}>
-            {/*isOwner  &&  */(
+            {isOwner  &&  (
               <div>
                 <Button
                   size="small"
@@ -73,7 +60,9 @@ status={postUser.status} updateStatus={updateStatus}/>*/}
               <Button
                 size="small"
                 icon={<EditOutlined />}
-                onClick={() => countDown()}
+                onClick={() => {
+                  modal.confirm(config);
+                }}
               >
                 Удалить
               </Button>

@@ -78,11 +78,10 @@ status={postUser.status} updateStatus={updateStatus}/>*/}
             ) : null}
           </div>
 
-          {isOwner ? (
+          {isOwner && 
             <PicturesWall 
             uploadPhoto={uploadPhoto}/>
-
-          ) : null}
+          }
 
         </Col>
 

@@ -5,19 +5,20 @@ const accessToken = getAccessToken();
 
 const instance = Axios.create({
   withCredentials:true,// отправлять куки
- baseURL: "http://188.225.42.218:4741/api",
+  baseURL: "http://188.225.42.218:4741/api",
   //baseURL: "http://localhost:4741/api",
   responseType: "json",
   headers: {
     'Accept': 'application/json',
     //'Content-Type': 'application/json',
-    'Content-Type': 'multipart/form-data',
-    'Authorization': accessToken && `${accessToken}`,
+    //'Content-Type': 'multipart/form-data',
+    'Authorization': accessToken ? `${accessToken}`:" ",
   },
 });
 
 export const authAPI = {
   getAuthLogin(auth) {
+    debugger
     // аунтификация по логину
     return instance
       .post(`login/`, {
@@ -61,6 +62,7 @@ export const profileAPI = {
   },
   updateUserData(userData) {
     // обновить данные юзера
+    debugger
     return instance
       .put(`edit-user/${userData._id}`, {
         imgAvatarId: userData.imgAvatarId,
@@ -71,7 +73,7 @@ export const profileAPI = {
         status: userData.status,
         aboutMe: userData.aboutMe,
         name: userData.name,
-        age: userData.age,
+        password:userData.password
       })
       .then((res) => res)
       .catch((err) => hendlErr(err));
@@ -108,7 +110,8 @@ export const eventsAPI = {
         ageRestrictions: eventData.ageRestrictions,
         amountMaximum: eventData.amountMaximum,
         description:eventData.description,
-        imgAvatarId:eventData.imgAvatarId
+        imgAvatarId:eventData.imgAvatarId,
+        users:[id]
       })
       .then((res) => res)
       .catch((err) => hendlErr(err));
@@ -117,6 +120,28 @@ export const eventsAPI = {
     //удаляем событие
     return instance
       .delete(`event/${eventId}`)
+      .then((res) => res)
+      .catch((err) => hendlErr(err));
+  },
+  updateEventData(newIdEvent,eventData) {
+    debugger
+    //обновить событие надо сделать тут
+    return instance
+      .put(`edit-event/${newIdEvent}`, {
+        ownerUser: eventData.ownerUser,
+        name: eventData.name,
+        locationLat:"54.19484846374912",
+        locationLon:"45.182281439192195",
+        address: eventData.address,
+        city: eventData.city,
+        type: eventData.type,
+        dateOfTheEvent: eventData.dateOfTheEvent,
+        ageRestrictions: eventData.ageRestrictions,
+        amountMaximum: eventData.amountMaximum,
+        description:eventData.description,
+        imgAvatarId:eventData.imgAvatarId,
+        users:eventData.users
+      })
       .then((res) => res)
       .catch((err) => hendlErr(err));
   },

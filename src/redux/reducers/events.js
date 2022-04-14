@@ -9,7 +9,11 @@ import {
   SUCCESS_EVENT,
   CLEAR_TOGGLE,
   EVENT_USER_NAME,
-  IS_TOGGLE_DEL_EV_FALSE
+  IS_TOGGLE_DEL_EV_FALSE,
+  ADD_USER_EVENT,
+  ADD_USER_ID_EVENT,
+  DEL_USER_EVENT,
+  DEL_USER_ID_EVENT
 } from "../constants";
 
 let initialState = {
@@ -29,7 +33,7 @@ let initialState = {
     amountMaximum: "",
     description: "",
     imgAvatarId: "",
-    users: ""
+    users: [""]
   },
   isToggleDelEventProfile:false,
   isToggleLoading:false,
@@ -39,7 +43,8 @@ let initialState = {
 eventUserName:{
   name:"",
   surname:""
-}
+},
+newIdEvent:""
 };
 
 const events = (state = initialState, {
@@ -52,7 +57,7 @@ const events = (state = initialState, {
         ...state,
         eventsData: [...payload],
         isToggleDelEventProfile:false
-      };
+      }; 
       case EVENT_USER_NAME:
       return {
         ...state,
@@ -128,11 +133,42 @@ const events = (state = initialState, {
         eventProfile: {...payload},
         isToggleDelEventProfile:true
       };
-      /*case IS_TOGGLE_DEL_EV_FALSE:
+      case IS_TOGGLE_DEL_EV_FALSE:
         return {
           ...state,
           isToggleDelEventProfile:false
-        };*/
+        };
+        case ADD_USER_EVENT:
+        return {
+          ...state,
+          newIdEvent:payload
+        }; 
+        case DEL_USER_EVENT:
+        return {
+          ...state,
+          newIdEvent:payload
+        }; 
+        case ADD_USER_ID_EVENT:
+          return {
+            ...state,
+            eventProfile: {
+              ...state.eventProfile,
+              users: [...state.eventProfile.users,
+                payload
+              ],
+              amountMaximum: state.eventProfile.amountMaximum - 1
+            }
+          };
+        case DEL_USER_ID_EVENT:
+          debugger
+        return {
+          ...state,
+          eventProfile: {
+            ...state.eventProfile,
+            users: [...state.eventProfile.users.filter(id => id !== payload)],
+            amountMaximum: state.eventProfile.amountMaximum + 1
+          }
+        };
     default:
       return state;
   };

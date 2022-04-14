@@ -12,7 +12,6 @@ export const EventProfileContainer = () => {
   const id = useSelector((state)=>state.userProfileData.userData._id);
   const event = useSelector((state)=>state.events); 
   const { eventId } = useParams();
-  
 debugger
 
   const hendlDelEvent=()=>{
@@ -22,7 +21,7 @@ debugger
   useEffect(() => {
     debugger
     dispatch(getEventId(eventId));
-  },[eventId]);
+  },[]);
 
   if(event.isToggleDelEventProfile) {
     debugger

@@ -20,7 +20,8 @@ const tailLayout = {
   wrapperCol: { offset: 8, span: 6 },
 };
 
-const LoginForm = ({ handleSubmit, message, isToggleLoading, isToggleErr }) => {
+const LoginForm = ({handleSubmit, message, isToggleLoading, isToggleErr }) => {
+    debugger
     return (
         <form onSubmit={handleSubmit}>
             {createField("Login", "login", undefined, [requiredField, maxLenght], AInput)}
@@ -49,8 +50,10 @@ export const Login =() =>{
 const authUser = useSelector(store => store.authUser);
 const dispatch = useDispatch() 
     const onSubmit = (value)=>{
+        debugger
         dispatch(loginUser(value) )
     }
+    debugger
     if(authUser.isAuth) return <Navigate to={"/profile"}/>
     return (
         <div style={{padding:"16px"}}>

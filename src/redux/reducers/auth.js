@@ -52,7 +52,7 @@ const authUser = (state = initialState, {
             debugger
             return {
                 ...state,
-                isToggleLoading: false
+                isToggleLoading: payload
             };
         case LOGIN_OUT:
             debugger

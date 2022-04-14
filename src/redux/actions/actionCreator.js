@@ -19,7 +19,9 @@ import {
   LOGIN_OUT,
   IS_TOGGLE_LOADING_AUTH,
   ERR_AUTH,
-  CLEAR_TOGGLE_AUTH
+  CLEAR_TOGGLE_AUTH,
+  ADD_USER_EVENT,
+  DEL_USER_EVENT
 } from "../constants";
 
 export const loginUser =(payload)=>({// данные авторизации
@@ -110,4 +112,12 @@ export const errAuth =(payload)=>({ //ошибка и её сообщение
 }); 
 export const clearToggleAuth =()=>({ //ошибка и её сообщение
   type:CLEAR_TOGGLE_AUTH
+}); 
+export const addUserEventAction =(payload)=>({ //добавить юзера к событию
+  type:ADD_USER_EVENT,
+  payload
+}); 
+export const delUserEventAction =(payload)=>({ //удаляем юзера от участия в событии
+  type:DEL_USER_EVENT,
+  payload
 });

@@ -121,9 +121,7 @@ export const AddEvent = () => {
     debugger
     dispatch(setNewEvent(value))
   };
-  /*if(isAuth){
-        return <Redirect to={"/profile"}/>
-    }*/
+  
   return (
     <div >
       <AddEventReduxForm 

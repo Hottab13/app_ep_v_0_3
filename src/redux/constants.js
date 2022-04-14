@@ -22,4 +22,9 @@ export const LOGIN_OUT = "LOGIN_OUT";
 export const IS_TOGGLE_LOADING_AUTH = "IS_TOGGLE_LOADING_AUTH"; 
 export const ERR_AUTH = "ERR_AUTH"; 
 export const CLEAR_TOGGLE_AUTH = "CLEAR_TOGGLE_AUTH";
+export const IS_TOGGLE_DEL_EV_FALSE = "IS_TOGGLE_DEL_EV_FALSE"; 
+export const ADD_USER_EVENT = "ADD_USER_EVENT"; 
+export const ADD_USER_ID_EVENT = "ADD_USER_ID_EVENT"; 
+export const DEL_USER_EVENT = "DEL_USER_EVENT"; 
+export const DEL_USER_ID_EVENT = "DEL_USER_ID_EVENT";
 

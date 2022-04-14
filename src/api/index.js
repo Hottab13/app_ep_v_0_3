@@ -1,6 +1,7 @@
 import { authAPI, userAPI, profileAPI, eventsAPI  } from "./api";
 
 export const getAuthTokenUser = async (auth) => {// дергаем токен по логину
+  debugger
   const respons = await authAPI.getAuthLogin(auth);
   debugger
   return await respons;
@@ -30,6 +31,7 @@ export const postUserAva = async (file) => {// загружаем новое ф�
 }; 
 export const putUpdataUserData = async (userData) => {// загружаем новое фото
   const respons = await profileAPI.updateUserData(userData);
+  debugger
   return await respons;
 };
 export const getEvents = async () => {// дёргаем события
@@ -48,4 +50,9 @@ export const delEvent = async (eventId) => {// удаляем событие
   const respons = await eventsAPI.delEvent(eventId);
   debugger
   return await respons.data;
+};
+export const putEvent = async (newIdEvent,eventData) => {// обновляем событие
+  const respons = await eventsAPI.updateEventData(newIdEvent,eventData);
+  debugger
+  return await respons;
 };

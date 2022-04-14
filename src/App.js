@@ -6,7 +6,6 @@ import { Profile }  from "./components/Profile/ProfileConainer.jsx";
 import { HeaderCont }  from "./components/Haeder/Header.jsx";
 import { AddEvent }  from "./components/AddEvent/AddEvent"; 
 import { EventProfileContainer }  from "./components/EventProfile/EventProfileConainer.jsx";
-import { getAusUserData, getIsAuthTrue } from "./redux/actions/actionCreator";
 import {AUTH_USER_DATA, IS_AUTH_TRUE} from "./redux/constants"
 import { getAccessToken } from "axios-jwt";
 import React, { useEffect, useState } from "react";
@@ -17,7 +16,7 @@ import {
   Route,
   Routes
 } from "react-router-dom";
-import { Layout, Menu, Result } from 'antd';
+import { Layout, Menu, Result, Spin } from 'antd';
 import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -26,19 +25,16 @@ const { Header, Content, Footer, Sider } = Layout;
 const App = () => {
   const accessToken = getAccessToken()
   const dispatch = useDispatch();
+  const auth = useSelector((state)=>state.authUser);
  // const { latestNews, popularNews } = useSelector(store => store?.news || {});
   //const { latestNewsError, popularNewsError } = useSelector(store => store?.errors || {});
   //const { _id } = useSelector((store) => store?.userData || {});*/
   useEffect(() => {
-    debugger
     if (accessToken) {
-      debugger
-      //dispatch(getAusUserData()); type:AUTH_USER_DATA
-      dispatch({type:AUTH_USER_DATA});// получить данные профиля по токену
-      dispatch({type:IS_AUTH_TRUE});//включить авторизацию
-      //dispatch(getIsAuthTrue());
+      dispatch({
+        type: AUTH_USER_DATA
+      }); // получить данные профиля по токену
     }
-    
   }, []);
   
   const [collapsed, setСollapsed] = useState(false);
@@ -74,9 +70,6 @@ const App = () => {
           <Menu.Item key="3" icon={<UploadOutlined />}>
             <Link to="/add-event">Создать событие</Link>
           </Menu.Item>
-          <Menu.Item key="4" icon={<UserOutlined />}>
-            nav 4
-          </Menu.Item>
         </Menu>
       </Sider>
       <Layout>
@@ -84,13 +77,16 @@ const App = () => {
           className="site-layout-sub-header-background"
           style={{ padding: 0 }}
         />
+         <Spin spinning={auth.isToggleLoading} delay={500}>
         <Content style={{ margin: "24px 16px 0" }}>
           <div
             className="site-layout-background"
             style={{ padding: 24, minHeight: 360 }}
           >
             <Routes>
-              <Route exact path="/profile" element={<Profile />} />
+              < Route exact path = "/profile"
+              element = {
+                  < Profile/ >} />
               <Route path="/profile/:userId" element={<Profile />} />
               <Route path="/login" element={<Login />} />
               <Route path="/events" element={<EventsContainer />} />
@@ -109,6 +105,7 @@ const App = () => {
             </Routes>
           </div>
         </Content>
+        </Spin>
         <Footer style={{ textAlign: "center" }}>
           EventsParty ©2022 Created by Alekseev.A
         </Footer>

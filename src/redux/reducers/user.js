@@ -19,6 +19,7 @@ let initialState = {
     imgAvatarId: "",
     createdAt: "",
     updatedAt: "",
+    password:""
   },
   img_1000_1000: "",
   user_id: "",
@@ -42,6 +43,7 @@ const userProfileData = (state = initialState, { type, payload }) => {
           imgAvatarId: payload.imgAvatarId,
           createdAt: payload.createdAt,
           updatedAt: payload.updatedAt,
+          password:payload.password
         },
       };
     case SET_USER_AVA: //загрузить авку в стейт
@@ -66,7 +68,7 @@ const userProfileData = (state = initialState, { type, payload }) => {
       return {
         ...state,
         userData: { ...state.userData, imgAvatarId: payload },
-      };
+      }; 
     default:
       return state;
   }

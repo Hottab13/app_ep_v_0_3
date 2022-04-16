@@ -8,6 +8,7 @@ import banner_4 from "../../../assets/images/banner-4.jpg";
 //import ava from "../../../assets/images/ava.png";
 //import { Avatar } from 'antd';
 //import ProfileDataContactForm from './ProfileDataContactForm'
+import { _arrayBufferToBase64 } from '../../../utils/arrayBufferToBase64';
 import { Carousel, Col,  Row } from 'antd';
 import { Upload, message, Button } from 'antd';
 import { EditOutlined, UploadOutlined } from '@ant-design/icons';
@@ -15,10 +16,10 @@ import Avatar from "antd/lib/avatar/avatar";
 import moment from "moment";
 import PicturesWall from "./UploadPhotoAva";
 
-export const PostInfo = ({isOwner, postUser,uploadPhoto,imgAva})=>{
+export const PostInfo = ({isOwner, profileUser,uploadPhoto})=>{
     //const isLoader=useSelector((state)=>state.postsPage.isLoader)
     const [editMode,setEditMode] = useState(false)
-    if(!postUser){
+    if(!profileUser){
         //return <Loader/>
     }
 //todo
@@ -53,7 +54,7 @@ return (
         <Col span={8}>
           <div>
             <div>
-              <h2>{postUser.name + " " + postUser.surname}</h2>
+              <h2>{profileUser.name + " " + profileUser.surname}</h2>
             </div>
             {/*<PostStatusWithHooks 
 status={postUser.status} updateStatus={updateStatus}/>*/}
@@ -61,7 +62,7 @@ status={postUser.status} updateStatus={updateStatus}/>*/}
           <div style={{ marginTop: "30px" }}>
             <Avatar
               size={200}
-              src={`data:image/jpg;base64,${imgAva.img_1000_1000}` || Avatar}
+              src={`data:image/jpg;base64,${_arrayBufferToBase64(profileUser.imgAvatar?.img_1000_1000?.data?.data)}` || Avatar}
             />
           </div>
           <div style={{ marginTop: "30px" }}>
@@ -89,7 +90,7 @@ status={postUser.status} updateStatus={updateStatus}/>*/}
           <div>
             {editMode ? (
               <ProfileDataContact
-                initialValues={postUser}
+                initialValues={profileUser}
                 //contact={contact}
                 //onSubmit={onSubmit}
               />
@@ -97,15 +98,15 @@ status={postUser.status} updateStatus={updateStatus}/>*/}
               //goToEditMode={()=>{ setEditMode(false);} } />:
               <ProfileDataContact
                 //contact={contact}
-                name={postUser.name}
-                surname={postUser.surname}
+                name={profileUser.name}
+                surname={profileUser.surname}
                 isOwner={isOwner}
-                aboutMe={postUser.aboutMe}
+                aboutMe={profileUser.aboutMe}
                 // lookingForAJob={postUser.lookingForAJob}
                 //lookingForAJobDescription={postUser.lookingForAJobDescription}
                 //nestName={postUser.nest}
-                sex={postUser.sex}
-                age={postUser.age}
+                sex={profileUser.sex}
+                age={profileUser.age}
                 goToEditMode={() => {
                   setEditMode(true);
                 }}

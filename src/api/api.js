@@ -5,13 +5,13 @@ const accessToken = getAccessToken();
 
 const instance = Axios.create({
   withCredentials:true,// отправлять куки
-  baseURL: "http://188.225.42.218:4741/api",
-  //baseURL: "http://localhost:4741/api",
+  //baseURL: "http://188.225.42.218:4741/api",
+  baseURL: "http://localhost:4741/api",
   responseType: "json",
   headers: {
     'Accept': 'application/json',
     //'Content-Type': 'application/json',
-    //'Content-Type': 'multipart/form-data',
+    'Content-Type': 'multipart/form-data',
     'Authorization': accessToken ? `${accessToken}`:" ",
   },
 });
@@ -45,36 +45,19 @@ export const userAPI = {
       .then((res) => res)
       .catch((err) => hendlErr(err));
   },
-  getUserAvatar(imgId) {
+  /*getUserAvatar(imgId) {
     return instance
       .get(`img/${imgId}`)
       .then((res) => res)
       .catch((err) => hendlErr(err));
-  },
+  },*/
 };
 export const profileAPI = {
-  //загрузить новую авку юзера
-  savePhoto(file) {
-    return instance
-      .post(`add-img/`, file)
-      .then((res) => res)
-      .catch((err) => hendlErr(err));
-  },
-  updateUserData(userData) {
+  updateUserData(formData,id) {
     // обновить данные юзера
     debugger
     return instance
-      .put(`edit-user/${userData._id}`, {
-        imgAvatarId: userData.imgAvatarId,
-        email: userData.email,
-        surname: userData.surname,
-        sex: userData.sex,
-        age: userData.age,
-        status: userData.status,
-        aboutMe: userData.aboutMe,
-        name: userData.name,
-        password:userData.password
-      })
+      .put(`edit-user/${id}`,formData )
       .then((res) => res)
       .catch((err) => hendlErr(err));
   },
@@ -95,24 +78,11 @@ export const eventsAPI = {
       .then((res) => res)
       .catch((err) => hendlErr(err));
   },
-  postEvent(id, eventData) {
+   postEvent(formData) {
+    debugger
     //создать событие
-    return instance
-      .post(`add-event/`, {
-        ownerUser: id,
-        name: eventData.name,
-        locationLat:"54.19484846374912",
-        locationLon:"45.182281439192195",
-        address: eventData.address,
-        city: eventData.city,
-        type: eventData.type,
-        dateOfTheEvent: eventData.dateOfTheEvent,
-        ageRestrictions: eventData.ageRestrictions,
-        amountMaximum: eventData.amountMaximum,
-        description:eventData.description,
-        imgAvatarId:eventData.imgAvatarId,
-        users:[id]
-      })
+    return  instance
+      .post(`add-event/`,formData)
       .then((res) => res)
       .catch((err) => hendlErr(err));
   },

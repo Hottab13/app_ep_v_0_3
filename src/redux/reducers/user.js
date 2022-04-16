@@ -1,9 +1,7 @@
 import {
   SET_USER_DATA,
-  SET_USER_AVA,
   SET_USER_ID,
   UPLOAD_PHOTO_AVA_USER,
-  SET_USER_PHOTO_ID,
 } from "../constants";
 
 let initialState = {
@@ -16,14 +14,13 @@ let initialState = {
     age: "",
     status: "",
     aboutMe: "",
-    imgAvatarId: "",
+    imgAvatar: "",
     createdAt: "",
     updatedAt: "",
     password:""
   },
-  img_1000_1000: "",
-  user_id: "",
-  uploadPhotoAvaUser: "",
+  user_id: "",//хранилище id юзера
+  uploadPhotoAvaUser: "",// хранилище новой фотки 
 };
 
 const userProfileData = (state = initialState, { type, payload }) => {
@@ -40,17 +37,11 @@ const userProfileData = (state = initialState, { type, payload }) => {
           age: payload.age,
           status: payload.status,
           aboutMe: payload.aboutMe,
-          imgAvatarId: payload.imgAvatarId,
+          imgAvatar: payload.imgAvatar,
           createdAt: payload.createdAt,
           updatedAt: payload.updatedAt,
           password:payload.password
         },
-      };
-    case SET_USER_AVA: //загрузить авку в стейт
-      debugger;
-      return {
-        ...state,
-        img_1000_1000: payload,
       };
     case SET_USER_ID: // загрузить данные юзера по id
       return {
@@ -63,12 +54,6 @@ const userProfileData = (state = initialState, { type, payload }) => {
         ...state,
         uploadPhotoAvaUser: payload,
       };
-    case SET_USER_PHOTO_ID:
-      debugger;
-      return {
-        ...state,
-        userData: { ...state.userData, imgAvatarId: payload },
-      }; 
     default:
       return state;
   }

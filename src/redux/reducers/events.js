@@ -13,12 +13,15 @@ import {
   ADD_USER_EVENT,
   ADD_USER_ID_EVENT,
   DEL_USER_EVENT,
-  DEL_USER_ID_EVENT
+  DEL_USER_ID_EVENT,
+  UPLOAD_PHOTO_AVA_EVENT
 } from "../constants";
 
 let initialState = {
   eventsData: [],
-  newEvents: {},
+  newEvents: {
+    imgAvatar:""
+  },
   getEventProfile: "",
   eventProfile: {
     ownerUser: "",
@@ -32,7 +35,7 @@ let initialState = {
     ageRestrictions: "",
     amountMaximum: "",
     description: "",
-    imgAvatarId: "",
+    imgAvatar: "",
     users: [""]
   },
   isToggleDelEventProfile:false,
@@ -44,7 +47,8 @@ eventUserName:{
   name:"",
   surname:""
 },
-newIdEvent:""
+newIdEvent:"",// id события в котором юзер хочет участвовать
+uploadPhotoAvaEvent:""
 };
 
 const events = (state = initialState, {
@@ -123,7 +127,7 @@ const events = (state = initialState, {
           ageRestrictions:payload.ageRestrictions,
           amountMaximum:payload.amountMaximum,
           description:payload.description,
-          imgAvatarId:payload.imgAvatarId,
+          imgAvatar:payload.imgAvatar,
           users:payload.users
         },
       }; 
@@ -168,6 +172,12 @@ const events = (state = initialState, {
             users: [...state.eventProfile.users.filter(id => id !== payload)],
             amountMaximum: state.eventProfile.amountMaximum + 1
           }
+        }; 
+        case UPLOAD_PHOTO_AVA_EVENT:
+          debugger
+        return {
+          ...state,
+          uploadPhotoAvaEvent:payload
         };
     default:
       return state;

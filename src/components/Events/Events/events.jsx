@@ -1,14 +1,16 @@
 import { Avatar,Statistic, Button, Image, Input } from "antd";
 import React from 'react';
-import { Container, Row, Col } from 'react-grid-system';
+import { Container, Row, Col } from 'react-grid-system'; 
+import { _arrayBufferToBase64 } from '../../../utils/arrayBufferToBase64';
 import { AntDesignOutlined, AudioOutlined } from "@ant-design/icons";
-//import Loader from '../Loader';
 import { NavLink } from "react-router-dom";
 import moment from "moment";
 const { Countdown } = Statistic;
 
 const Events = ({ events, u_id, addUserEvent, delUserEvent }) => {
   return (<React.Fragment>
+    <Container fluid>
+    <Row align="start" style={{ marginTop: "12px" }} >
     {events.map(
       ({
         _id,
@@ -21,33 +23,19 @@ const Events = ({ events, u_id, addUserEvent, delUserEvent }) => {
         dateOfTheEvent,
         ageRestrictions,
         amountMaximum,
-        imgAvatarId,
+        imgAvatar,
         createdAt,
         ownerUser
       }) => (
-        <Row style={{ marginTop: "12px" }} key={_id}>
-          <Col md={4} debug>
+          <Col md={4} key={_id}  style={{ padding:"5px" }} debug>
+            <Row  >
+          <Col md={7} >
             <NavLink to={`` + _id}>
               <h1>{name}</h1>
             </NavLink>
-            <p>Тип:{type}</p>
-            <p>Возрастное ограничение:{ageRestrictions + " +"}</p>
-            <p>Оставшиеся места:{amountMaximum}</p>
-            <h6><p>Событие создано:{moment.utc(createdAt).format('DD/MM/YYYY')}</p></h6>
-            <div style={{ marginTop: "20px" }}>
-
-            </div>
-          </Col>
-
-          <Col md={4} debug>
-            <p>Место:{address}</p>
-            <p>Начало события:{moment.utc(dateOfTheEvent[0]).format('DD/MM/YYYY')}</p>
-            <p>Окончание события:{moment.utc(dateOfTheEvent[1]).format('DD/MM/YYYY')}</p>
             <Countdown title="Событие начнёться через: " value={dateOfTheEvent[0]} format="D Д HH:mm:ss" onFinish={console.log("Старт!")} />
           </Col>
-
-          <Col md={4} debug>
-            <NavLink to={`profile/` + users}>
+          <Col md={5} >
               <Avatar
                 style={{ backgroundColor: "#87d068" }}
                 size={{
@@ -58,43 +46,68 @@ const Events = ({ events, u_id, addUserEvent, delUserEvent }) => {
                   xl: 80,
                   xxl: 100,
                 }}
-                src={imgAvatarId ? imgAvatarId : <AntDesignOutlined />}
-              >
-                {" "}
-              </Avatar>
-            </NavLink>
+                src={`data:image/jpg;base64,${_arrayBufferToBase64(imgAvatar?.img_200_200?.data?.data)}` || <AntDesignOutlined />}
+              />
+              
             {u_id === ownerUser ? <Button
               type="primary"
+              size="small"
               //disabled={u_id === ownerUser}
               onClick={null}
             >
-              Удалить событие
+              Удалить
             </Button> : users.find(u => u === u_id) ?
               <Button
                 type="primary"
+                size="small"
                 //disabled={amountMaximum <= 0}
-                onClick={()=>delUserEvent(_id)}
+                onClick={() => delUserEvent(_id)}
               >
                 Отказаться
               </Button> :
               <Button
                 type="primary"
+                size="small"
                 disabled={amountMaximum <= 0}
-                onClick={()=>addUserEvent(_id)}
+                onClick={() => addUserEvent(_id)}
               >
                 Участвовать
               </Button>
             }
-            {users.map(
+            </Col>
+            </Row>
+            <Row>
+              <Col md={3}>
+            Места:<b>{amountMaximum}</b>
+            </Col>
+            <Col md={4}>
+            Участники: <b>{users.length}</b>
+            </Col>
+            <Col md={5}>
+            Ограничения:<b>{ageRestrictions + " +"}</b>
+            </Col>
+            </Row>
+            {/*users.map(
               (u) => (
                 <p>Участник:{u}</p>
               )
-            )}
-
+              )*/}   
+          <Row>
+            <Col md={6}>
+              <h6>Тип:{type}<br />
+                Адресс:{city + "," + address}</h6>
+            </Col>
+            <Col md={6}>
+              <h6>Дата:{moment.utc(dateOfTheEvent[0]).format('DD/MM/YYYY')} - {moment.utc(dateOfTheEvent[1]).format('DD/MM/YYYY')}<br />
+                Событие создано:{moment.utc(createdAt).format('DD/MM/YYYY')}</h6>
+            </Col>
+          </Row>
           </Col>
-        </Row>
+        
       )
-    )}</React.Fragment>
+    )}</Row>
+    </Container>
+    </React.Fragment>
   )
 }
 export default Events;

@@ -12,7 +12,7 @@ import {  message, Spin } from 'antd';
 export const Profile = () => {
   debugger
   const dispatch = useDispatch();
-  const auth = useSelector((state)=>state.authUser);
+  //const auth = useSelector((state)=>state.authUser);
   const profileUser = useSelector((state)=>state.userProfileData);
   const { userId } = useParams();
 
@@ -23,27 +23,20 @@ export const Profile = () => {
       dispatch(getUserData(userId));
     }
     // dispatch({type:AUTH_USER_DATA});// если id нету, значит дергаем данные по токену
-    
   }
-
   const uploadPhoto=(imgData)=>{
-    dispatch(uploadPhotoAva(imgData));
+    dispatch(uploadPhotoAva(imgData)); 
   }
   useEffect(() => {
     refreshProfile();
-  },[profileUser.userData.imgAvatarId]);
- 
+  },[profileUser]);
   return (
     <div className={classes.content}>
-      
         <PostInfo
           isOwner={!userId}
-          postUser={profileUser.userData}
-          imgAva={profileUser}
+          profileUser={profileUser.userData}
           uploadPhoto={uploadPhoto}
         />
-      
-      {/*<MyPostsConainer />*/}
     </div>
   );
 }

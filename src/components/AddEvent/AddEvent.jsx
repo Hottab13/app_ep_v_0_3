@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Field, reduxForm } from "redux-form";
 import { maxLengthCreator, requiredField } from "../../utils/validators";
-import { setNewEvent } from "../../redux/actions/actionCreator";
+import { setNewEvent, uploadPhotoAvaEvent } from "../../redux/actions/actionCreator";
 import { AInput, ATextarea, ARangePicker, AInputNumber, ASelect , Option} from "../../utils/makeField";
 import { createField, createFieldSelect } from '../../utils/createFields'
 import {
@@ -12,6 +12,7 @@ import {
   PageHeader,
   Alert
 } from "antd";
+import PicturesWall from "../Profile/PostInfo/UploadPhotoAva";
 
 const FormItem = Form.Item;
 
@@ -29,7 +30,7 @@ const tailFormItemLayout = {
   };
 
 const maxLenght = maxLengthCreator(100);
-const AddEventForm = ({success,err,message,isToggleLoading,error,handleSubmit, ...props }) => {
+const AddEventForm = ({uploadPhoto,success,err,message,isToggleLoading,error,handleSubmit, ...props }) => {
     const { pristine, reset, submitting } = props;
     const optionsCiti = [{value:"Саранск"},{value:"Москва"},{value:"Санкт-Петербург"} ];
     const optionsType = [{value:"Активный отды"},{value:"Другое"},{value:"Релакс"} ];
@@ -41,7 +42,7 @@ const AddEventForm = ({success,err,message,isToggleLoading,error,handleSubmit, .
         title="Cоздание события"
         //subTitle="Форма создания нового гнезда"
       />
-      <form onSubmit={handleSubmit} style={{ paddingTop: "16px" }}>
+      <form onSubmit={handleSubmit} style={{ paddingTop: "16px" }} >
         {createField("Введите название события", "name", "Название", [requiredField, maxLenght], AInput)}
         {createFieldSelect("Выберите тип", "type", "Тип события", [requiredField], ASelect, optionsType)}
         {createField("Введите описание", "description", "Описание события", [requiredField, maxLengthCreator(2000)], ATextarea)}
@@ -54,7 +55,7 @@ const AddEventForm = ({success,err,message,isToggleLoading,error,handleSubmit, .
           validate={[requiredField]}
           onFocus={(e) => e.preventDefault()}
           onBlur={(e) => e.preventDefault()}
-        />
+  />
         {createFieldSelect("Выберите город", "city", "Город события", [requiredField], ASelect, optionsCiti)}
         {createField("Введите адрес", "address", "Адрес проведения события", [requiredField, maxLengthCreator(100)], AInput)}
         <Field
@@ -77,7 +78,9 @@ const AddEventForm = ({success,err,message,isToggleLoading,error,handleSubmit, .
           formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
           parser={value => value.replace(/\+\s?|(,*)/g, '')}
         />
-
+        <PicturesWall 
+            uploadPhoto={uploadPhoto}/>
+            
         <FormItem {...tailFormItemLayout}>
           {err ? <Alert message={"Ошибка: " + message} type="error" /> :
             success ?
@@ -117,6 +120,11 @@ const AddEventReduxForm = reduxForm({
 export const AddEvent = () => {
   const dispatch = useDispatch();
   const events = useSelector((state)=>state.events);
+
+  const uploadPhoto=(imgData)=>{
+    debugger
+    dispatch(uploadPhotoAvaEvent(imgData)); 
+  }
   const showResults = (value) => {
     debugger
     dispatch(setNewEvent(value))
@@ -125,6 +133,7 @@ export const AddEvent = () => {
   return (
     <div >
       <AddEventReduxForm 
+      uploadPhoto={uploadPhoto}
       onSubmit={showResults}
       isToggleLoading={events.isToggleLoading}
       err={events.isToggleErr} 

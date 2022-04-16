@@ -24,8 +24,6 @@ import {
 } from '../constants';
 import {
   setUserData,
-  setUserAvatar,
-  setUserPhotoId,
   setEvents,
   setEventProfile,
   isToggleLoading,
@@ -36,14 +34,11 @@ import {
   isToggleLoadingAuth,
   errAuth,
   clearToggleAuth,
-  //addUsersDataEvent
 } from '../actions/actionCreator';
 import {
   getAuthTokenUser,
   getAuthData,
   getUserData,
-  getUserAvatar,
-  postUserAva,
   putUpdataUserData,
   getEvents,
   postNewEvent,
@@ -94,8 +89,6 @@ export function* hendlerAuthData() {//дергаем авторизованно�
     yield put(isToggleLoadingAuth(true))
     const {data} = yield call(getAuthData);
     yield put(setUserData(data));
-    const img_1000_1000 = yield call(getUserAvatar,data.imgAvatarId );
-    yield put(setUserAvatar(_arrayBufferToBase64(img_1000_1000)));
     yield put(isToggleLoadingAuth(false))
   } catch {
     //yield put({ type: SET_POPULAR_NEWS_ERROR, payload: 'Error fetching popular news' });
@@ -115,11 +108,8 @@ export function* hendlerUserData() {//дергаем данные юзера п�
 export function* hendlerUploadPhotoUserAva() {//загружаем новую авку
   try {
     yield put(isToggleLoadingAuth(true))
-    const {uploadPhotoAvaUser} = yield select(({userProfileData})=>userProfileData);
-    const {idImg} = yield call(postUserAva,uploadPhotoAvaUser);
-    yield put(setUserPhotoId(idImg))
-    const {userData} = yield select(({userProfileData})=>userProfileData);
-    const {data} = yield call(putUpdataUserData,userData);
+    const userData = yield select(({userProfileData})=>userProfileData);
+    const {data} = yield call(putUpdataUserData,userData.userData,userData.uploadPhotoAvaUser);
     yield put(isToggleLoadingAuth(false))
   } catch {
     yield
@@ -148,9 +138,9 @@ export function* hendlerEvents() {//дергаем массив событий
 export function* hendlerNewEvent() {//добавляем новое событие
   try {
     const {_id} = yield select(({userProfileData})=>userProfileData.userData);
-    const {newEvents} = yield select(({events})=>events);
+    const event = yield select(({events})=>events); 
     debugger
-    const res = yield call(postNewEvent,_id,newEvents);// надо сделать сообщение успешного создания
+    const res = yield call(postNewEvent,_id,event.newEvents,event.uploadPhotoAvaEvent);// надо сделать сообщение успешного создания
     if(res.status===200){
       debugger
       yield put(isToggleLoading(false))

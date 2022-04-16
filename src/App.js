@@ -78,7 +78,7 @@ const App = () => {
           style={{ padding: 0 }}
         />
          <Spin spinning={auth.isToggleLoading} delay={500}>
-        <Content style={{ margin: "24px 16px 0" }}>
+        <Content >
           <div
             className="site-layout-background"
             style={{ padding: 24, minHeight: 360 }}

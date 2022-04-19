@@ -2,6 +2,7 @@ import {
   SET_USER_DATA,
   SET_USER_ID,
   UPLOAD_PHOTO_AVA_USER,
+  SUCCESS_UPDATE_USER_DATA
 } from "../constants";
 
 let initialState = {
@@ -21,6 +22,7 @@ let initialState = {
   },
   user_id: "",//хранилище id юзера
   uploadPhotoAvaUser: "",// хранилище новой фотки 
+  successUpdateUserData:false,// перменная успеха обновления данных 
 };
 
 const userProfileData = (state = initialState, { type, payload }) => {
@@ -53,6 +55,12 @@ const userProfileData = (state = initialState, { type, payload }) => {
       return {
         ...state,
         uploadPhotoAvaUser: payload,
+      };
+      case SUCCESS_UPDATE_USER_DATA: // успех обновления
+      debugger;
+      return {
+        ...state,
+        successUpdateUserData:!state.successUpdateUserData
       };
     default:
       return state;

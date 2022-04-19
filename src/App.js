@@ -5,6 +5,7 @@ import EventsContainer  from "./components/Events/EventsContainer.jsx";
 import { Profile }  from "./components/Profile/ProfileConainer.jsx"; 
 import { HeaderCont }  from "./components/Haeder/Header.jsx";
 import { AddEvent }  from "./components/AddEvent/AddEvent"; 
+import  MyEventsContainer   from "./components/MyEvents/MyEventsContainer.jsx";
 import { EventProfileContainer }  from "./components/EventProfile/EventProfileConainer.jsx";
 import {AUTH_USER_DATA, IS_AUTH_TRUE} from "./redux/constants"
 import { getAccessToken } from "axios-jwt";
@@ -17,7 +18,7 @@ import {
   Routes
 } from "react-router-dom";
 import { Layout, Menu, Result, Spin } from 'antd';
-import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
+import { UserOutlined, ApartmentOutlined, AppstoreAddOutlined,AppstoreOutlined  } from '@ant-design/icons';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -60,14 +61,17 @@ const App = () => {
         }}
       >
         <div className="logo"  style={{ paddingTop: 60 }} />
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={["4"]}>
+        <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
           <Menu.Item key="1" icon={<UserOutlined />}>
             <Link to="/profile">Профиль</Link>
           </Menu.Item>
-          <Menu.Item key="2" icon={<VideoCameraOutlined />}>
+          <Menu.Item key="2" icon={<AppstoreOutlined />}>
             <Link to="/events">События</Link>
           </Menu.Item>
-          <Menu.Item key="3" icon={<UploadOutlined />}>
+          <Menu.Item key="3" icon={<ApartmentOutlined />}>
+            <Link to="/my-events">Мои события</Link>
+          </Menu.Item>
+          <Menu.Item key="4" icon={<AppstoreAddOutlined />}>
             <Link to="/add-event">Создать событие</Link>
           </Menu.Item>
         </Menu>
@@ -92,6 +96,7 @@ const App = () => {
               <Route path="/events" element={<EventsContainer />} />
               <Route path="/events/:eventId" element={<EventProfileContainer />} /> 
               <Route path="/add-event" element={<AddEvent />} />
+              <Route path="/my-events" element={<MyEventsContainer />} />
               <Route
                 path="*"
                 element={

@@ -93,25 +93,27 @@ export const eventsAPI = {
       .then((res) => res)
       .catch((err) => hendlErr(err));
   },
-  updateEventData(newIdEvent,eventData) {
+  updateEventData(newIdEvent,formData) {
     debugger
     //обновить событие надо сделать тут
     return instance
-      .put(`edit-event/${newIdEvent}`, {
-        ownerUser: eventData.ownerUser,
-        name: eventData.name,
-        locationLat:"54.19484846374912",
-        locationLon:"45.182281439192195",
-        address: eventData.address,
-        city: eventData.city,
-        type: eventData.type,
-        dateOfTheEvent: eventData.dateOfTheEvent,
-        ageRestrictions: eventData.ageRestrictions,
-        amountMaximum: eventData.amountMaximum,
-        description:eventData.description,
-        imgAvatarId:eventData.imgAvatarId,
-        users:eventData.users
-      })
+      .put(`edit-event/${newIdEvent}`,formData) 
+      .then((res) => res)
+      .catch((err) => hendlErr(err));
+  },
+  updateMemberEvent(newIdEvent,formData) {
+    debugger
+    //обновить событие надо сделать тут
+    return instance
+      .put(`ubdate-member-event/${newIdEvent}`,formData) 
+      .then((res) => res)
+      .catch((err) => hendlErr(err));
+  }, 
+  getMyEvents(id) {
+    debugger
+    //обновить событие надо сделать тут
+    return instance
+      .get(`events-user/${id}`) 
       .then((res) => res)
       .catch((err) => hendlErr(err));
   },

@@ -20,7 +20,10 @@ import {
   ADD_USER_EVENT,
   ADD_USER_ID_EVENT,
   DEL_USER_EVENT,
-  DEL_USER_ID_EVENT
+  DEL_USER_ID_EVENT,
+  SUCCESS_UPDATE_MEMBER_EVENT,
+  SUCCESS_UPDATE_USER_DATA,
+  GET_MY_EVENTS
 } from '../constants';
 import {
   setUserData,
@@ -44,7 +47,8 @@ import {
   postNewEvent,
   getEvent,
   delEvent,
-  putEvent
+  updateMemberEvent,
+  getMyEvents
 } from '../../api/index';
 import {
   setAuthUser
@@ -72,7 +76,6 @@ export function* hendlerAuthUser() {// аунтификация
       yield put({type: IS_AUTH_TRUE});// делаем стор авторизованным
     }else{
       debugger
-      yield put(isToggleLoadingAuth(false))
       yield put(isToggleLoadingAuth(false))
       yield put(errAuth(res.data.errorText))
       yield delay(5)
@@ -109,7 +112,12 @@ export function* hendlerUploadPhotoUserAva() {//загружаем новую а
   try {
     yield put(isToggleLoadingAuth(true))
     const userData = yield select(({userProfileData})=>userProfileData);
-    const {data} = yield call(putUpdataUserData,userData.userData,userData.uploadPhotoAvaUser);
+    const res = yield call(putUpdataUserData,userData.userData,userData.uploadPhotoAvaUser);
+    debugger
+    if(res.status===200){
+      debugger
+      yield put({ type: SUCCESS_UPDATE_USER_DATA});
+    }
     yield put(isToggleLoadingAuth(false))
   } catch {
     yield
@@ -120,16 +128,6 @@ export function* hendlerEvents() {//дергаем массив событий
     yield put(isToggleLoadingAuth(true))
     const events = yield call(getEvents);
     yield put(setEvents(events))
-    const {eventsData} = yield select(({events})=>events);
-    /*yield eventsData.map(({users})=>{
-      debugger
-       users.map((u)=>{
-        debugger
-        let {data} =  yield call(getUserData,u);
-        debugger
-        put(addUsersDataEvent(data))
-      })
-    })*/
     yield put(isToggleLoadingAuth(false))
   } catch {
     yield
@@ -191,18 +189,20 @@ export function* hendlerDelEvent() {//удаляем событие
 export function* hendlerAddUserEvent() {//добавляем юзера к событию
   try {
     yield put(isToggleLoadingAuth(true))
-    const {newIdEvent} = yield select(({events})=>events);// дергаем данные id события
+    const {newIdEvent} = yield select(({events})=>events);// дергаем id выбранного события
     const {_id} = yield select(({userProfileData})=>userProfileData.userData);// дёргаем id юзера
-    const res = yield call(getEvent,newIdEvent);//дергаем данные события
-    yield put(setEventProfile(res))// сетаем в стейт
+    //const res = yield call(getEvent,newIdEvent);//дергаем данные события с API
+    //yield put(setEventProfile(res))// сетаем в стейт данные
     yield put({ type: ADD_USER_ID_EVENT, payload:_id});// добавляем id юзера в массив юзеров события
-    const {eventProfile} = yield select(({events})=>events);// дергаем данные id события
-    debugger
-    const res_data = yield call(putEvent,newIdEvent,eventProfile);//обновляем событие
+    const {addUsersEvent} = yield select(({events})=>events);// дергаем данные обнавлённого события
+    const res_data = yield call(updateMemberEvent,newIdEvent,addUsersEvent);//обновляем событие
+    if(res_data.status===200){
+      debugger
+      yield put({ type: SUCCESS_UPDATE_MEMBER_EVENT});
+    }
     debugger
     yield put(isToggleLoadingAuth(false)) 
-
-    yield put({type:IS_TOGGLE_DEL_EV_FALSE})
+    //yield put({type:IS_TOGGLE_DEL_EV_FALSE})
   } catch {
     yield
   }
@@ -210,19 +210,36 @@ export function* hendlerAddUserEvent() {//добавляем юзера к со�
 export function* hendlerDelUserEvent() {//удаляем юзера из событию
   try {
     yield put(isToggleLoadingAuth(true))
-    const {newIdEvent} = yield select(({events})=>events);// дергаем данные id события
+    const {newIdEvent} = yield select(({events})=>events);// дергаем id выбранного события
     const {_id} = yield select(({userProfileData})=>userProfileData.userData);// дёргаем id юзера
-    const res = yield call(getEvent,newIdEvent);//дергаем данные события
-    yield put(setEventProfile(res))// сетаем в стейт
-debugger
+    //const res = yield call(getEvent,newIdEvent);//дергаем данные события с API
+    //yield put(setEventProfile(res))// сетаем в стейт
     yield put({ type: DEL_USER_ID_EVENT, payload:_id});// удаляем id юзера из массива событий
-    const {eventProfile} = yield select(({events})=>events);// дергаем данные id события
+    const {addUsersEvent} = yield select(({events})=>events);// дергаем данные обнавлённого события
     debugger
-    const res_data = yield call(putEvent,newIdEvent,eventProfile);//обновляем событие
+    const res_data = yield call(updateMemberEvent,newIdEvent,addUsersEvent);//обновляем событие
+    if(res_data.status===200){
+      debugger
+      yield put({ type: SUCCESS_UPDATE_MEMBER_EVENT});
+    }
     debugger
     yield put(isToggleLoadingAuth(false)) 
-
-    yield put({type:IS_TOGGLE_DEL_EV_FALSE})
+  } catch {
+    yield
+  }
+} 
+export function* hendlerMyEvents() {//дергаем мои события
+  try {
+    yield put(isToggleLoadingAuth(true))
+    const {_id} = yield select(({userProfileData})=>userProfileData.userData);// дёргаем id юзера
+    debugger
+    const res_data = yield call(getMyEvents,_id);//дёргаем мои события
+    debugger
+    if(res_data.status===200){
+      debugger
+      yield put(setEvents(res_data.data))
+    }
+    yield put(isToggleLoadingAuth(false)) 
   } catch {
     yield
   }
@@ -257,6 +274,9 @@ export function* watchAddUserEvent() {// добавить нового учас�
 } 
 export function* watchDelUserEvent() {// удалить участника события
   yield takeEvery(DEL_USER_EVENT, hendlerDelUserEvent);
+} 
+export function* watchMyEvents() {// дёрнуть мои события
+  yield takeEvery(GET_MY_EVENTS, hendlerMyEvents);
 }
 
 export default function* rootSaga() {
@@ -271,5 +291,6 @@ export default function* rootSaga() {
     fork (watchDelEvent), 
     fork (watchAddUserEvent),
     fork (watchDelUserEvent),
+    fork (watchMyEvents),
   ])
 }

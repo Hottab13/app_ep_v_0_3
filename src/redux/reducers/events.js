@@ -14,41 +14,47 @@ import {
   ADD_USER_ID_EVENT,
   DEL_USER_EVENT,
   DEL_USER_ID_EVENT,
-  UPLOAD_PHOTO_AVA_EVENT
+  UPLOAD_PHOTO_AVA_EVENT,
+  SUCCESS_UPDATE_MEMBER_EVENT
 } from "../constants";
 
 let initialState = {
   eventsData: [],
   newEvents: {
-    imgAvatar:""
+    imgAvatar: ""
   },
   getEventProfile: "",
   eventProfile: {
     ownerUser: "",
     name: "",
-    locationLat: "",
-    locationLon: "",
+    //locationLat: "",
+    //locationLon: "",
     address: "",
     city: "",
     type: "",
-    dateOfTheEvent:"",
+    dateOfTheEvent: "",
     ageRestrictions: "",
     amountMaximum: "",
     description: "",
     imgAvatar: "",
     users: [""]
   },
-  isToggleDelEventProfile:false,
-  isToggleLoading:false,
-  message:"",
-  isToggleErr:false,
-  isToggleSuccess:false,
-eventUserName:{
-  name:"",
-  surname:""
-},
-newIdEvent:"",// id события в котором юзер хочет участвовать
-uploadPhotoAvaEvent:""
+  isToggleDelEventProfile: false,
+  isToggleLoading: false,
+  message: "",
+  isToggleErr: false,
+  isToggleSuccess: false,
+  eventUserName: {
+    name: "",
+    surname: ""
+  },
+  newIdEvent: "", // id события в котором юзер хочет участвовать
+  uploadPhotoAvaEvent: "",
+  addUsersEvent: { // массив юзеров принадлежащих к событию
+    users: "",
+    amountMaximum: ""
+  },
+  successUpdateMemberEvent: false
 };
 
 const events = (state = initialState, {
@@ -118,8 +124,8 @@ const events = (state = initialState, {
         eventProfile: {
           ownerUser:payload.ownerUser,
           name:payload.name,
-          locationLat:payload.locationLat,
-          locationLon:payload.locationLon,
+          //locationLat:payload.locationLat,
+          //locationLon:payload.locationLon,
           address:payload.address,
           city:payload.city,
           type:payload.type,
@@ -127,7 +133,7 @@ const events = (state = initialState, {
           ageRestrictions:payload.ageRestrictions,
           amountMaximum:payload.amountMaximum,
           description:payload.description,
-          imgAvatar:payload.imgAvatar,
+          imgAvatar:payload.imgAvatar || "",
           users:payload.users
         },
       }; 
@@ -153,31 +159,41 @@ const events = (state = initialState, {
           newIdEvent:payload
         }; 
         case ADD_USER_ID_EVENT:
-          return {
-            ...state,
-            eventProfile: {
-              ...state.eventProfile,
-              users: [...state.eventProfile.users,
-                payload
-              ],
-              amountMaximum: state.eventProfile.amountMaximum - 1
-            }
-          };
+          debugger
+        return {
+          ...state,
+          addUsersEvent: {
+            ...state.addUsersEvent,
+            users: [
+              ...state.eventsData.find(id => id._id === state.newIdEvent).users,
+              payload
+            ],
+            amountMaximum: state.eventsData.find(id => id._id === state.newIdEvent).amountMaximum - 1
+          }
+        };
         case DEL_USER_ID_EVENT:
           debugger
         return {
           ...state,
-          eventProfile: {
-            ...state.eventProfile,
-            users: [...state.eventProfile.users.filter(id => id !== payload)],
-            amountMaximum: state.eventProfile.amountMaximum + 1
+          addUsersEvent: {
+            ...state.addUsersEvent,
+            users: [
+              ...state.eventsData.find(id => id._id === state.newIdEvent).users.filter(id => id !== payload)
+            ],
+            amountMaximum: state.eventsData.find(id => id._id === state.newIdEvent).amountMaximum + 1
           }
-        }; 
+        };
         case UPLOAD_PHOTO_AVA_EVENT:
           debugger
         return {
           ...state,
           uploadPhotoAvaEvent:payload
+        }; 
+        case SUCCESS_UPDATE_MEMBER_EVENT:
+          debugger
+        return {
+          ...state,
+          successUpdateMemberEvent: !state.successUpdateMemberEvent
         };
     default:
       return state;

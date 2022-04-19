@@ -21,7 +21,6 @@ const tailLayout = {
 };
 
 const LoginForm = ({handleSubmit, message, isToggleLoading, isToggleErr }) => {
-    debugger
     return (
         <form onSubmit={handleSubmit}>
             {createField("Login", "login", undefined, [requiredField, maxLenght], AInput)}
@@ -53,7 +52,6 @@ const dispatch = useDispatch()
         debugger
         dispatch(loginUser(value) )
     }
-    debugger
     if(authUser.isAuth) return <Navigate to={"/profile"}/>
     return (
         <div style={{padding:"16px"}}>

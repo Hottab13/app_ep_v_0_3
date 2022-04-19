@@ -48,10 +48,10 @@ class PicturesWall extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    let formData = new FormData();
+    //let formData = new FormData();
     // add one or more of your files in FormData
     // again, the original file is located at the `originFileObj` key
-    formData.append("image", this.state.fileList[0].originFileObj);
+    //formData.append("image", this.state.fileList[0].originFileObj);
     //this.props.uploadPhoto(formData);
     this.props.uploadPhoto(this.state.fileList[0].originFileObj);
   };

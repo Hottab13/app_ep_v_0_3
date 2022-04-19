@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import {GET_EVENTS} from "../../redux/constants";
+import {GET_MY_EVENTS} from "../../redux/constants";
 import {addUserEventAction, delUserEventAction} from "../../redux/actions/actionCreator";
-import Events from "./Events/events";
+import Events from "../Events/Events/events";
 
-const EventsContainer = () => {
+const MyEventsContainer = () => {
   const dispatch = useDispatch();
   const {isToggleLoading} = useSelector((state) => state.authUser); 
   const events = useSelector((state) => state.events.eventsData); 
@@ -18,8 +18,8 @@ const EventsContainer = () => {
   } 
   useEffect(() => {
     debugger;
-    dispatch({type:GET_EVENTS});
-  },[successUpdateMemberEvent]);
+    dispatch({type:GET_MY_EVENTS});
+  },[]);
   return (
     <React.Fragment>
       <Events
@@ -31,4 +31,4 @@ const EventsContainer = () => {
     </React.Fragment>
   );
 };
-export default EventsContainer;
+export default MyEventsContainer;

@@ -10,7 +10,6 @@ import {uploadPhotoAva} from "../../redux/actions/actionCreator";
 import {  message, Spin } from 'antd';
 
 export const Profile = () => {
-  debugger
   const dispatch = useDispatch();
   //const auth = useSelector((state)=>state.authUser);
   const profileUser = useSelector((state)=>state.userProfileData);
@@ -22,14 +21,15 @@ export const Profile = () => {
       dispatch(setUserId(userId));// требуется рефакторинг, сделать 1 диспатч, добавить прилоудер
       dispatch(getUserData(userId));
     }
-    // dispatch({type:AUTH_USER_DATA});// если id нету, значит дергаем данные по токену
+     dispatch({type:AUTH_USER_DATA});// если id нету, значит дергаем данные по токену
   }
   const uploadPhoto=(imgData)=>{
     dispatch(uploadPhotoAva(imgData)); 
   }
   useEffect(() => {
+    debugger
     refreshProfile();
-  },[profileUser]);
+  },[profileUser.successUpdateUserData]);
   return (
     <div className={classes.content}>
         <PostInfo

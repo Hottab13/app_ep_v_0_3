@@ -31,8 +31,8 @@ export const PostInfo = ({isOwner, profileUser,uploadPhoto})=>{
    //}
     //let contact = postUser.contacts
 return (
-  <div>
-    <div>
+  <React.Fragment>
+    {/*<div>
       <Carousel autoplay>
         <div>
           <img src={banner_1} />
@@ -47,7 +47,7 @@ return (
           <img src={banner_4} />
         </div>
       </Carousel>
-    </div>
+</div>*/}
     <div>
       {/*isLoader? <Loader/>  : null*/}
       <Row>
@@ -116,7 +116,7 @@ status={postUser.status} updateStatus={updateStatus}/>*/}
         </Col>
       </Row>
     </div>
-  </div>
+  </React.Fragment>
 );}
 
 const ProfileDataContact =({

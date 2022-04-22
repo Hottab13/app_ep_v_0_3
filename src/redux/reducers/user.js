@@ -2,7 +2,7 @@ import {
   SET_USER_DATA,
   SET_USER_ID,
   UPLOAD_PHOTO_AVA_USER,
-  SUCCESS_UPDATE_USER_DATA
+  SUCCESS_UPDATE_USER_DATA,
 } from "../constants";
 
 let initialState = {
@@ -18,11 +18,11 @@ let initialState = {
     imgAvatar: "",
     createdAt: "",
     updatedAt: "",
-    password:""
+    password: "",
   },
-  user_id: "",//хранилище id юзера
-  uploadPhotoAvaUser: "",// хранилище новой фотки 
-  successUpdateUserData:false,// перменная успеха обновления данных 
+  user_id: "", //хранилище id юзера
+  uploadPhotoAvaUser: "", // хранилище новой фотки
+  successUpdateUserData: false, // перменная успеха обновления данных
 };
 
 const userProfileData = (state = initialState, { type, payload }) => {
@@ -42,7 +42,7 @@ const userProfileData = (state = initialState, { type, payload }) => {
           imgAvatar: payload.imgAvatar,
           createdAt: payload.createdAt,
           updatedAt: payload.updatedAt,
-          password:payload.password
+          password: payload.password,
         },
       };
     case SET_USER_ID: // загрузить данные юзера по id
@@ -56,11 +56,11 @@ const userProfileData = (state = initialState, { type, payload }) => {
         ...state,
         uploadPhotoAvaUser: payload,
       };
-      case SUCCESS_UPDATE_USER_DATA: // успех обновления
+    case SUCCESS_UPDATE_USER_DATA: // успех обновления
       debugger;
       return {
         ...state,
-        successUpdateUserData:!state.successUpdateUserData
+        successUpdateUserData: !state.successUpdateUserData,
       };
     default:
       return state;

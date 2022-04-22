@@ -9,26 +9,27 @@ import { uploadPhotoAva } from "../../redux/actions/actionCreator";
 import { getAccessToken } from "axios-jwt";
 
 export const Profile = () => {
-  const accessToken = getAccessToken()
+  const accessToken = getAccessToken();
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.authUser);
   const profileUser = useSelector((state) => state.userProfileData);
   const { userId } = useParams();
-  const refreshProfile = () => {// проверяем id в браузере, если есть сетаем id в стор и дергаем данные этого юзера
+  const refreshProfile = () => {
+    // проверяем id в браузере, если есть сетаем id в стор и дергаем данные этого юзера
     if (userId) {
-      dispatch(setUserId(userId));// требуется рефакторинг, сделать 1 диспатч, добавить прилоудер
+      dispatch(setUserId(userId)); // требуется рефакторинг, сделать 1 диспатч, добавить прилоудер
       dispatch(getUserData(userId));
     }
-    if (accessToken) dispatch({ type: AUTH_USER_DATA });// если id нету, значит дергаем данные по токену
-  }
+    if (accessToken) dispatch({ type: AUTH_USER_DATA }); // если id нету, значит дергаем данные по токену
+  };
   const uploadPhoto = (imgData) => {
     dispatch(uploadPhotoAva(imgData));
-  }
+  };
   useEffect(() => {
-    debugger
+    debugger;
     refreshProfile();
   }, [profileUser.successUpdateUserData]);
-  if (!auth.isAuth) return <Navigate to={"/login"} />
+  if (!auth.isAuth) return <Navigate to={"/login"} />;
   return (
     <React.Fragment className={classes.content}>
       <PostInfo
@@ -38,5 +39,4 @@ export const Profile = () => {
       />
     </React.Fragment>
   );
-}
-
+};

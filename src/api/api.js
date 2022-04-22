@@ -1,32 +1,32 @@
 import Axios from "axios";
-import { applyAuthTokenInterceptor, getAccessToken } from 'axios-jwt';
-import {hendlErr} from "../utils/hendlErr"
+import { getAccessToken } from "axios-jwt";
+import { hendlErr } from "../utils/hendlErr";
 const accessToken = getAccessToken();
 
 const instance = Axios.create({
-  withCredentials:true,// отправлять куки
-  //baseURL: "http://188.225.42.218:4741/api",
-  baseURL: "http://localhost:4741/api",
+  withCredentials: true, // отправлять куки
+  baseURL: "http://188.225.42.218:4741/api",
+  //baseURL: "http://localhost:4741/api",
   responseType: "json",
   headers: {
-    'Accept': 'application/json',
+    Accept: "application/json",
     //'Content-Type': 'application/json',
-    'Content-Type': 'multipart/form-data',
-    'Authorization': accessToken ? `${accessToken}`:" ",
+    "Content-Type": "multipart/form-data",
+    Authorization: accessToken ? `${accessToken}` : " ",
   },
 });
 
 export const authAPI = {
   getAuthTokenUser(formData) {
-    debugger
+    debugger;
     // аунтификация по логину
     return instance
       .post(`login/`, formData)
       .then((res) => res)
       .catch((err) => hendlErr(err));
-  }, 
+  },
   postRegistrationUser(formData) {
-    debugger
+    debugger;
     // аунтификация по логину
     return instance
       .post(`registration/`, formData)
@@ -50,19 +50,13 @@ export const userAPI = {
       .then((res) => res)
       .catch((err) => hendlErr(err));
   },
-  /*getUserAvatar(imgId) {
-    return instance
-      .get(`img/${imgId}`)
-      .then((res) => res)
-      .catch((err) => hendlErr(err));
-  },*/
 };
 export const profileAPI = {
-  updateUserData(formData,id) {
+  updateUserData(formData, id) {
     // обновить данные юзера
-    debugger
+    debugger;
     return instance
-      .put(`edit-user/${id}`,formData )
+      .put(`edit-user/${id}`, formData)
       .then((res) => res)
       .catch((err) => hendlErr(err));
   },
@@ -83,11 +77,11 @@ export const eventsAPI = {
       .then((res) => res)
       .catch((err) => hendlErr(err));
   },
-   postEvent(formData) {
-    debugger
+  postEvent(formData) {
+    debugger;
     //создать событие
-    return  instance
-      .post(`add-event/`,formData)
+    return instance
+      .post(`add-event/`, formData)
       .then((res) => res)
       .catch((err) => hendlErr(err));
   },
@@ -98,35 +92,35 @@ export const eventsAPI = {
       .then((res) => res)
       .catch((err) => hendlErr(err));
   },
-  updateEventData(newIdEvent,formData) {
-    debugger
+  updateEventData(newIdEvent, formData) {
+    debugger;
     //обновить событие надо сделать тут
     return instance
-      .put(`edit-event/${newIdEvent}`,formData) 
+      .put(`edit-event/${newIdEvent}`, formData)
       .then((res) => res)
       .catch((err) => hendlErr(err));
   },
-  updateMemberEvent(newIdEvent,formData) {
-    debugger
+  updateMemberEvent(newIdEvent, formData) {
+    debugger;
     //обновить событие надо сделать тут
     return instance
-      .put(`ubdate-member-event/${newIdEvent}`,formData) 
+      .put(`ubdate-member-event/${newIdEvent}`, formData)
       .then((res) => res)
       .catch((err) => hendlErr(err));
-  }, 
+  },
   getMyEvents(id) {
-    debugger
+    debugger;
     //обновить событие надо сделать тут
     return instance
-      .get(`events-user/${id}`) 
+      .get(`events-user/${id}`)
       .then((res) => res)
       .catch((err) => hendlErr(err));
-  }, 
+  },
   postFiltrEvents(formData) {
-    debugger
+    debugger;
     //фильтр событий
     return instance
-      .post(`filtr-events/`,formData) 
+      .post(`filtr-events/`, formData)
       .then((res) => res)
       .catch((err) => hendlErr(err));
   },

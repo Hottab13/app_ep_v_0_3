@@ -1,7 +1,7 @@
-import { clearAuthTokens, setAuthTokens } from "axios-jwt";
+import { setAuthTokens } from "axios-jwt";
 
 export const setAuthUser = (accessToken) => {
-    setAuthTokens({
-        accessToken,
-    })
-}
+  setAuthTokens({
+    accessToken,
+  });
+};

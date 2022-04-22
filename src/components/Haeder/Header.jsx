@@ -8,16 +8,14 @@ import { useDispatch, useSelector } from "react-redux";
 ///import { logOut } from "../../redux/AuthReducer";
 import { Typography, Space } from "antd";
 import { Row, Col } from "react-grid-system";
-import {logOut} from "../../redux/actions/actionCreator"
+import { logOut } from "../../redux/actions/actionCreator";
 //import ava from "../../assets/images/ava.png";
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { clearAuthTokens } from "axios-jwt";
-
 
 const { SubMenu } = Menu;
 
 const { Text } = Typography;
-
 
 export const HeaderCont = (props) => {
   const [visible, setVisible] = useState(false);
@@ -27,7 +25,7 @@ export const HeaderCont = (props) => {
   const onClose = () => {
     setVisible(false);
   };
-  const {isAuth} = useSelector((state) => state.authUser );
+  const { isAuth } = useSelector((state) => state.authUser);
   //const img=useSelector((state:AppStateType)=>state.postsPage.photo_1000)
   const dispatch = useDispatch();
   const logOutColbeck = () => {
@@ -55,7 +53,6 @@ export const HeaderCont = (props) => {
 </Menu>*/}
         </Col>
         <Col md={1}>
-
           {/*login.isAuth ? <Avatar size={40} src={`data:image/jpg;base64,${img}` || ava}>
             {login.name}</Avatar> : ""*/}
         </Col>

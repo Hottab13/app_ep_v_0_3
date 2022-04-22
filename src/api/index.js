@@ -15,36 +15,21 @@ const parsObjFormData = (data) => {
   })
   return formData;
 }
-
 export const getAuthTokenUser = async (auth) => {// дергаем токен по логину
-  debugger
-  const respons = await authAPI.getAuthLogin(auth);
+  const respons = await authAPI.getAuthTokenUser(parsObjFormData(auth));
   debugger
   return respons;
 };
-
 export const getAuthData = async () => {// дергаем данные юзера по токену
   const respons = await userAPI.getAuthTokenUser();
   debugger
   return respons;
 };
-
-/*export const getUserAvatar = async (imgAvatarId) => {// дерагем авку по id 
-  const respons = await userAPI.getUserAvatar(imgAvatarId);
-  debugger
-  const img_1000_1000 = respons.data.img_1000_1000.data.data;
-  return await img_1000_1000;
-};*/
-
 export const getUserData = async (userId) => {// дергаем данные юзера по id
   const respons = await userAPI.getUserData(userId);
   debugger
   return respons;
 }; 
-/*export const postUserAva = async (file) => {// загружаем новое фото
-  const respons = await profileAPI.savePhoto(file);
-  return await respons.data;
-}; */
 export const putUpdataUserData = async (userData,uploadPhotoAvaUser) => {// обновить данные юзера
   let formData = new FormData();
 
@@ -96,37 +81,23 @@ export const delEvent = async (eventId) => {// удаляем событие
   debugger
   return  respons.data;
 };
-/*export const updateEvent = async (newIdEvent,eventData) => {// обновляем событие 
-  let formData = new FormData();
-debugger
-  Object.keys(eventData).forEach((key) => { 
-    if (eventData[key].constructor === Array) {
-      let arr = eventData[key];
-      for (let i = 0; i < arr.length; i++) {
-        debugger
-        formData.append(`${key}[]`, arr[i]);
-      }
-    }else if(eventData[key].constructor === Object){
-     /* const odj = eventData[key];
-      debugger
-      Object.keys(odj).forEach((key_obj) => { 
-        formData.append(key_obj, odj[key_obj].data)
-      })
-    } else {
-      debugger
-      formData.append(key, eventData[key])
-    }
-  })
-  debugger
-  const respons = await eventsAPI.updateEventData(newIdEvent,formData);
-  debugger
-  return await respons;
-}; */
 export const updateMemberEvent = async (newIdEvent,eventData) => {// обновление участников события
   const respons = await eventsAPI.updateMemberEvent(newIdEvent,parsObjFormData(eventData));
   return respons;
 }; 
 export const getMyEvents = async (id) => {// дёргаем мои события
   const respons = await eventsAPI.getMyEvents(id);
+  return respons;
+}; 
+export const postRegistrationUser = async (registrationData) => {//регистрация юзера
+  debugger
+  const respons = await authAPI.postRegistrationUser(parsObjFormData(registrationData));
+  debugger
+  return respons;
+}; 
+export const postFiltrEvents = async (filtrData) => {//регистрация юзера
+  debugger
+  const respons = await eventsAPI.postFiltrEvents(parsObjFormData(filtrData));
+  debugger
   return respons;
 };

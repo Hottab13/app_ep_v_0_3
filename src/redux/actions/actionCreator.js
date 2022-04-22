@@ -20,7 +20,9 @@ import {
   CLEAR_TOGGLE_AUTH,
   ADD_USER_EVENT,
   DEL_USER_EVENT,
-  UPLOAD_PHOTO_AVA_EVENT
+  UPLOAD_PHOTO_AVA_EVENT,
+  REGISTRATION_USER,
+  FILTR_EVENTS
 } from "../constants";
 
 export const loginUser =(payload)=>({// данные авторизации
@@ -107,3 +109,11 @@ export const uploadPhotoAvaEvent =(payload)=>({ //загрузить фото и
   type:UPLOAD_PHOTO_AVA_EVENT,
   payload
 }); 
+export const registrationUser =(payload)=>({ //регистрацию пользователя
+  type:REGISTRATION_USER,
+  payload
+}); 
+export const filtrEvents =(payload)=>({ //фильтр для подгрузки событий
+  type:FILTR_EVENTS,
+  payload
+});

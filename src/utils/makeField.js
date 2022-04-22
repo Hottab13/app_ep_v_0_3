@@ -6,6 +6,7 @@ import {
   DatePicker,
   Radio,
   InputNumber,
+  Cascader
 } from "antd";
 
 const formItemLayout = {
@@ -46,3 +47,4 @@ export const ACheckbox = makeField(Checkbox);
 export const ATextarea = makeField(TextArea);
 export const ARangePicker = makeField(RangePicker);
 export const AInputNumber = makeField(InputNumber);
+export const ACascader = makeField(Cascader);

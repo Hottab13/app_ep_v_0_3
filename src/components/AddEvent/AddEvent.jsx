@@ -1,8 +1,8 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { Field, reduxForm } from "redux-form";
-import { maxLengthCreator, requiredField } from "../../utils/validators";
+import { maxLengthCreator, requiredField, number } from "../../utils/validators";
 import { setNewEvent, uploadPhotoAvaEvent } from "../../redux/actions/actionCreator";
 import { AInput, ATextarea, ARangePicker, AInputNumber, ASelect , Option} from "../../utils/makeField";
 import { createField, createFieldSelect } from '../../utils/createFields'
@@ -12,6 +12,7 @@ import {
   PageHeader,
   Alert
 } from "antd";
+import {optionsCiti, optionsType} from "../../assets/data/index"
 import PicturesWall from "../Profile/PostInfo/UploadPhotoAva";
 
 const FormItem = Form.Item;
@@ -32,8 +33,6 @@ const tailFormItemLayout = {
 const maxLenght = maxLengthCreator(100);
 const AddEventForm = ({uploadPhoto,success,err,message,isToggleLoading,error,handleSubmit, ...props }) => {
     const { pristine, reset, submitting } = props;
-    const optionsCiti = [{value:"Саранск"},{value:"Москва"},{value:"Санкт-Петербург"} ];
-    const optionsType = [{value:"Активный отды"},{value:"Другое"},{value:"Релакс"} ];
   return (
     <div>
       <PageHeader
@@ -62,7 +61,7 @@ const AddEventForm = ({uploadPhoto,success,err,message,isToggleLoading,error,han
           label="Количество мест"
           name="amountMaximum"
           component={AInputNumber}
-          validate={[requiredField]}
+          validate={[requiredField,number]}
           min={1}
           max={1000}
           defaultValue={1}
@@ -71,7 +70,7 @@ const AddEventForm = ({uploadPhoto,success,err,message,isToggleLoading,error,han
           label="Возраст. огран."
           name="ageRestrictions"
           component={AInputNumber}
-          validate={[requiredField]}
+          validate={[requiredField, number]}
           min={18}
           max={100}
           defaultValue={18}
@@ -120,7 +119,7 @@ const AddEventReduxForm = reduxForm({
 export const AddEvent = () => {
   const dispatch = useDispatch();
   const events = useSelector((state)=>state.events);
-
+  const {isAuth} = useSelector((state) => state.authUser);
   const uploadPhoto=(imgData)=>{
     debugger
     dispatch(uploadPhotoAvaEvent(imgData)); 
@@ -129,9 +128,9 @@ export const AddEvent = () => {
     debugger
     dispatch(setNewEvent(value))
   };
-  
+  if (!isAuth) return <Navigate to={"/login"} />
   return (
-    <div >
+    <React.Fragment >
       <AddEventReduxForm 
       uploadPhoto={uploadPhoto}
       onSubmit={showResults}
@@ -140,6 +139,6 @@ export const AddEvent = () => {
       success={events.isToggleSuccess} 
       message={events.message}
        />
-    </div>
+    </React.Fragment>
   );
 };

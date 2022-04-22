@@ -1,13 +1,12 @@
 import React, { Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Navigate, Link } from 'react-router-dom'
-import { reduxForm } from 'redux-form'
-import { loginUser } from '../../redux/actions/actionCreator'
+import { Navigate } from 'react-router-dom'
+import { reduxForm, Field } from 'redux-form'
+import { registrationUser } from '../../redux/actions/actionCreator'
 import { createField } from '../../utils/createFields'
-import { maxLengthCreator, requiredField, email } from '../../utils/validators'
-import {AInputPass, AInput, ACheckbox} from '../../utils/makeField'
-//import style from '../../FormControl/FormControl.css'
-import { Form, Input, Button, Checkbox, Alert } from 'antd';
+import { maxLengthCreator, requiredField, match, email } from '../../utils/validators'
+import {AInputPass, AInput} from '../../utils/makeField'
+import { Form, Button, Alert } from 'antd';
 
 const FormItem = Form.Item;
 const maxLenght = maxLengthCreator(30);
@@ -20,19 +19,18 @@ const tailLayout = {
   wrapperCol: { offset: 8, span: 6 },
 };
 
-const LoginForm = ({handleSubmit, message, isToggleLoading, isToggleErr }) => {
+const RegistrationForm = ({handleSubmit, message, isToggleLoading, isToggleErr }) => {
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} >
+           
+            {createField("Имя", "name", undefined, [requiredField, maxLenght,], AInput)}
             {createField("Электронная почта", "login", undefined, [requiredField, maxLenght,email], AInput)}
-            {createField("Пароль", "pass", undefined, [requiredField, maxLenght], AInputPass, { type: "password" })}
-            {createField(undefined, "remember_me", undefined, [], ACheckbox, { type: "checkbox" }, "Запомнить меня(функция не работает)")}
-            <Link to="/registration">
-                Регистрация
-            </Link>
+            {createField("Пароль", "password", undefined, [requiredField, maxLenght], AInputPass, { type: "password" })}
+            {createField("Повторите пароль", "confirmPassword", undefined, [requiredField, maxLenght,match("password")], AInputPass, { type: "password" })}
+           
             <FormItem >
                 {isToggleErr && <Alert message={message} type="error" />}
             </FormItem>
-            
                 <FormItem {...tailLayout}>
                     <Button
                         type="primary"
@@ -40,25 +38,25 @@ const LoginForm = ({handleSubmit, message, isToggleLoading, isToggleErr }) => {
                         disabled={isToggleErr}
                         loading={isToggleLoading}
                         style={{ marginRight: "10px" }}
-                    >Вход</Button>
+                    >Регистрация</Button>
                 </FormItem>
             
         </form>
     )
 }
-const LoginReduxForm = reduxForm({form:'login'})(LoginForm);
+const RegistrationReduxForm = reduxForm({form:'registration'})(RegistrationForm);
 
-export const Login =() =>{
+export const Registration =() =>{
 const authUser = useSelector(store => store.authUser);
 const dispatch = useDispatch() 
     const onSubmit = (value)=>{
         debugger
-        dispatch(loginUser(value) )
+        dispatch(registrationUser(value) )
     }
     if(authUser.isAuth) return <Navigate to={"/profile"}/>
     return (
         <Fragment style={{padding:"16px"}}>
-           <LoginReduxForm 
+           <RegistrationReduxForm 
            message={authUser.message}
            isToggleLoading={authUser.isToggleLoading}
            isToggleErr={authUser.isToggleErr}

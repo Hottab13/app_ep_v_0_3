@@ -15,7 +15,8 @@ import {
   DEL_USER_EVENT,
   DEL_USER_ID_EVENT,
   UPLOAD_PHOTO_AVA_EVENT,
-  SUCCESS_UPDATE_MEMBER_EVENT
+  SUCCESS_UPDATE_MEMBER_EVENT,
+  FILTR_EVENTS
 } from "../constants";
 
 let initialState = {
@@ -54,7 +55,11 @@ let initialState = {
     users: "",
     amountMaximum: ""
   },
-  successUpdateMemberEvent: false
+  successUpdateMemberEvent: false,
+  arrfiltrEvents:{
+    filtrEvents:""
+  }
+  
 };
 
 const events = (state = initialState, {
@@ -66,54 +71,54 @@ const events = (state = initialState, {
       return {
         ...state,
         eventsData: [...payload],
-        isToggleDelEventProfile:false
-      }; 
-      case EVENT_USER_NAME:
+          isToggleDelEventProfile: false
+      };
+    case EVENT_USER_NAME:
       return {
         ...state,
         eventUserName: {
-          name:payload.name,
-          surname:payload.surname
+          name: payload.name,
+          surname: payload.surname
         },
       };
-      case ERR_EVENT:
+    case ERR_EVENT:
       debugger
       return {
         ...state,
         message: payload,
-        isToggleErr:true
+          isToggleErr: true
       };
-      case CLEAR_TOGGLE:
+    case CLEAR_TOGGLE:
       debugger
       return {
         ...state,
-        message:"",
-        isToggleErr:false,
-        isToggleSuccess:false
+        message: "",
+          isToggleErr: false,
+          isToggleSuccess: false
       };
-      case SUCCESS_EVENT:
-        debugger
-        return {
-          ...state,
-          message: payload,
-          isToggleSuccess:true
-        };
+    case SUCCESS_EVENT:
+      debugger
+      return {
+        ...state,
+        message: payload,
+          isToggleSuccess: true
+      };
     case SET_NEW_EVENT:
       return {
         ...state,
         newEvents: {
-          ...state.newEvents,
-          ...payload
-        },
-        isToggleLoading:true
-      }; 
+            ...state.newEvents,
+            ...payload
+          },
+          isToggleLoading: true
+      };
     case GET_EVENT_PROFILE:
       return {
         ...state,
         getEventProfile: payload
       };
-      case IS_TOGGLE_LOADING:
-  debugger
+    case IS_TOGGLE_LOADING:
+      debugger
       return {
         ...state,
         isToggleLoading: payload
@@ -122,79 +127,90 @@ const events = (state = initialState, {
       return {
         ...state,
         eventProfile: {
-          ownerUser:payload.ownerUser,
-          name:payload.name,
+          ownerUser: payload.ownerUser,
+          name: payload.name,
           //locationLat:payload.locationLat,
           //locationLon:payload.locationLon,
-          address:payload.address,
-          city:payload.city,
-          type:payload.type,
-          dateOfTheEvent:payload.dateOfTheEvent,
-          ageRestrictions:payload.ageRestrictions,
-          amountMaximum:payload.amountMaximum,
-          description:payload.description,
-          imgAvatar:payload.imgAvatar || "",
-          users:payload.users
+          address: payload.address,
+          city: payload.city,
+          type: payload.type,
+          dateOfTheEvent: payload.dateOfTheEvent,
+          ageRestrictions: payload.ageRestrictions,
+          amountMaximum: payload.amountMaximum,
+          description: payload.description,
+          imgAvatar: payload.imgAvatar || "",
+          users: payload.users
         },
-      }; 
-      case DEL_EVENT:
+      };
+    case DEL_EVENT:
       return {
         ...state,
-        eventProfile: {...payload},
-        isToggleDelEventProfile:true
+        eventProfile: {
+            ...payload
+          },
+          isToggleDelEventProfile: true
       };
-      case IS_TOGGLE_DEL_EV_FALSE:
-        return {
-          ...state,
-          isToggleDelEventProfile:false
-        };
-        case ADD_USER_EVENT:
-        return {
-          ...state,
-          newIdEvent:payload
-        }; 
-        case DEL_USER_EVENT:
-        return {
-          ...state,
-          newIdEvent:payload
-        }; 
-        case ADD_USER_ID_EVENT:
-          debugger
-        return {
-          ...state,
-          addUsersEvent: {
-            ...state.addUsersEvent,
-            users: [
-              ...state.eventsData.find(id => id._id === state.newIdEvent).users,
-              payload
-            ],
-            amountMaximum: state.eventsData.find(id => id._id === state.newIdEvent).amountMaximum - 1
-          }
-        };
-        case DEL_USER_ID_EVENT:
-          debugger
-        return {
-          ...state,
-          addUsersEvent: {
-            ...state.addUsersEvent,
-            users: [
-              ...state.eventsData.find(id => id._id === state.newIdEvent).users.filter(id => id !== payload)
-            ],
-            amountMaximum: state.eventsData.find(id => id._id === state.newIdEvent).amountMaximum + 1
-          }
-        };
-        case UPLOAD_PHOTO_AVA_EVENT:
-          debugger
-        return {
-          ...state,
-          uploadPhotoAvaEvent:payload
-        }; 
-        case SUCCESS_UPDATE_MEMBER_EVENT:
-          debugger
-        return {
-          ...state,
-          successUpdateMemberEvent: !state.successUpdateMemberEvent
-        };
+    case IS_TOGGLE_DEL_EV_FALSE:
+      return {
+        ...state,
+        isToggleDelEventProfile: false
+      };
+    case ADD_USER_EVENT:
+      return {
+        ...state,
+        newIdEvent: payload
+      };
+    case DEL_USER_EVENT:
+      return {
+        ...state,
+        newIdEvent: payload
+      };
+    case ADD_USER_ID_EVENT:
+      debugger
+      return {
+        ...state,
+        addUsersEvent: {
+          ...state.addUsersEvent,
+          users: [
+            ...state.eventsData.find(id => id._id === state.newIdEvent).users,
+            payload
+          ],
+          amountMaximum: state.eventsData.find(id => id._id === state.newIdEvent).amountMaximum - 1
+        }
+      };
+    case DEL_USER_ID_EVENT:
+      debugger
+      return {
+        ...state,
+        addUsersEvent: {
+          ...state.addUsersEvent,
+          users: [
+            ...state.eventsData.find(id => id._id === state.newIdEvent).users.filter(id => id !== payload)
+          ],
+          amountMaximum: state.eventsData.find(id => id._id === state.newIdEvent).amountMaximum + 1
+        }
+      };
+    case UPLOAD_PHOTO_AVA_EVENT:
+      debugger
+      return {
+        ...state,
+        uploadPhotoAvaEvent: payload
+      };
+    case SUCCESS_UPDATE_MEMBER_EVENT:
+      debugger
+      return {
+        ...state,
+        successUpdateMemberEvent: !state.successUpdateMemberEvent
+      }; 
+      case FILTR_EVENTS:
+      debugger
+      return {
+        ...state,
+        arrfiltrEvents:{
+          filtrEvents:payload
+        }
+        
+      };
     default:
       return state;
   };

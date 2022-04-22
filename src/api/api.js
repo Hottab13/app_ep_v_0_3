@@ -17,14 +17,19 @@ const instance = Axios.create({
 });
 
 export const authAPI = {
-  getAuthLogin(auth) {
+  getAuthTokenUser(formData) {
     debugger
     // аунтификация по логину
     return instance
-      .post(`login/`, {
-        email: auth.login,
-        password: auth.pass,
-      })
+      .post(`login/`, formData)
+      .then((res) => res)
+      .catch((err) => hendlErr(err));
+  }, 
+  postRegistrationUser(formData) {
+    debugger
+    // аунтификация по логину
+    return instance
+      .post(`registration/`, formData)
       .then((res) => res)
       .catch((err) => hendlErr(err));
   },
@@ -114,6 +119,14 @@ export const eventsAPI = {
     //обновить событие надо сделать тут
     return instance
       .get(`events-user/${id}`) 
+      .then((res) => res)
+      .catch((err) => hendlErr(err));
+  }, 
+  postFiltrEvents(formData) {
+    debugger
+    //фильтр событий
+    return instance
+      .post(`filtr-events/`,formData) 
       .then((res) => res)
       .catch((err) => hendlErr(err));
   },

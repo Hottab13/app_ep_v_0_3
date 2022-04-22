@@ -4,12 +4,20 @@ import {
     LOGIN_OUT,
     IS_TOGGLE_LOADING_AUTH,
     ERR_AUTH,
-    CLEAR_TOGGLE_AUTH
+    CLEAR_TOGGLE_AUTH,
+    REGISTRATION_USER
 } from "../constants"
 
 let initialState = {
-    login: "",
-    pass: "",
+    authData:{
+        email:"",
+        password:""
+    },
+    registrationData:{
+        email:"",
+        password:"",
+        name:""
+    },
     isAuth: false,
     isToggleLoading: false,
     message: "",
@@ -23,12 +31,25 @@ const authUser = (state = initialState, {
     switch (type) {
         case AUTH_USER:
             debugger
-            return {
-                ...state,
-                login: payload.login,
-                    pass: payload.pass,
-                    isToggleLoading: true
-            };
+        return {
+            ...state,
+            authData:{
+                email:payload.login,
+                password:payload.pass
+            },
+            isToggleLoading: true
+        }; 
+        case REGISTRATION_USER:
+            debugger
+        return {
+            ...state,
+            registrationData:{
+                email:payload.login,
+                password:payload.password,
+                name:payload.name
+            },
+            isToggleLoading: true
+        };
         case IS_AUTH_TRUE:
             debugger
             return {

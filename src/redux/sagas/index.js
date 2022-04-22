@@ -23,7 +23,9 @@ import {
   DEL_USER_ID_EVENT,
   SUCCESS_UPDATE_MEMBER_EVENT,
   SUCCESS_UPDATE_USER_DATA,
-  GET_MY_EVENTS
+  GET_MY_EVENTS,
+  REGISTRATION_USER,
+  FILTR_EVENTS
 } from '../constants';
 import {
   setUserData,
@@ -48,14 +50,13 @@ import {
   getEvent,
   delEvent,
   updateMemberEvent,
-  getMyEvents
+  getMyEvents,
+  postRegistrationUser,
+  postFiltrEvents
 } from '../../api/index';
 import {
   setAuthUser
 } from '../../utils/setAuthToken';
-import {
-  _arrayBufferToBase64
-} from '../../utils/arrayBufferToBase64';
 
 const delay =(time)=> new Promise((resolve, reject)=>{
   setTimeout(resolve,time *1000)
@@ -63,19 +64,14 @@ const delay =(time)=> new Promise((resolve, reject)=>{
 
 export function* hendlerAuthUser() {// аунтификация
   try {
-    debugger
-    const auth = yield select(({authUser})=>authUser);
-    debugger
-    const res = yield call(getAuthTokenUser, auth);
-    debugger
+    const {authData} = yield select(({authUser})=>authUser);
+    const res = yield call(getAuthTokenUser, authData);
     if(res.status===200){
-      debugger
       yield put(isToggleLoadingAuth(false))
       yield put(isToggleLoading(false))// отключить прелоудер
       yield setAuthUser(res.data.accessToken);// сохраняем токен в куки
       yield put({type: IS_AUTH_TRUE});// делаем стор авторизованным
     }else{
-      debugger
       yield put(isToggleLoadingAuth(false))
       yield put(errAuth(res.data.errorText))
       yield delay(5)
@@ -244,6 +240,54 @@ export function* hendlerMyEvents() {//дергаем мои события
     yield
   }
 }
+export function* hendlerRegistrationUser() {// регистрация
+  try {
+    const {registrationData} = yield select(({authUser})=>authUser);
+    debugger
+    const res = yield call(postRegistrationUser, registrationData);
+    debugger
+    if(res.status===200){
+      debugger
+      yield put(isToggleLoadingAuth(false))
+      yield put(isToggleLoading(false))// отключить прелоудер
+      yield setAuthUser(res.data.accessToken);// сохраняем токен в куки
+      yield put({type: IS_AUTH_TRUE});// делаем стор авторизованным
+    }else{
+      yield put(isToggleLoadingAuth(false))
+      yield put(isToggleLoading(false))// отключить прелоудер
+      yield put(errAuth(res.data.errorText))
+      yield delay(5)
+      yield put(clearToggleAuth())
+    }
+
+  } catch {
+   // yield put({ type: SET_POPULAR_NEWS_ERROR, payload: 'Error fetching popular news' });
+  }
+}
+export function* hendlerFiltrEvents() {// фильтр событий
+  try {
+    const {arrfiltrEvents} = yield select(({events})=>events);
+    debugger
+    const res = yield call(postFiltrEvents, arrfiltrEvents);
+    debugger
+    if(res.status===200){
+      debugger
+      yield put(isToggleLoadingAuth(false))
+      yield put(isToggleLoading(false))// отключить прелоудер
+      yield setAuthUser(res.data.accessToken);// сохраняем токен в куки
+      yield put({type: IS_AUTH_TRUE});// делаем стор авторизованным
+    }else{
+      yield put(isToggleLoadingAuth(false))
+      yield put(isToggleLoading(false))// отключить прелоудер
+      yield put(errAuth(res.data.errorText))
+      yield delay(5)
+      yield put(clearToggleAuth())
+    }
+
+  } catch {
+   // yield put({ type: SET_POPULAR_NEWS_ERROR, payload: 'Error fetching popular news' });
+  }
+}
 
 export function* watchAuthUser() {
   yield takeEvery(AUTH_USER, hendlerAuthUser ); 
@@ -269,14 +313,20 @@ export function* watchEventProfile() {
 export function* watchDelEvent() {
   yield takeEvery(DEL_EVENT, hendlerDelEvent);
 } 
-export function* watchAddUserEvent() {// добавить нового участника события
+export function* watchAddUserEvent() {//добавить нового участника события
   yield takeEvery(ADD_USER_EVENT, hendlerAddUserEvent);
 } 
-export function* watchDelUserEvent() {// удалить участника события
+export function* watchDelUserEvent() {//удалить участника события
   yield takeEvery(DEL_USER_EVENT, hendlerDelUserEvent);
 } 
-export function* watchMyEvents() {// дёрнуть мои события
+export function* watchMyEvents() {//дёрнуть мои события
   yield takeEvery(GET_MY_EVENTS, hendlerMyEvents);
+} 
+export function* watchRegistrationUser() {//регистрация пользователя
+  yield takeEvery(REGISTRATION_USER, hendlerRegistrationUser);
+}
+export function* watchFiltrEvents() {//фильтр событий
+  yield takeEvery(FILTR_EVENTS, hendlerFiltrEvents);
 }
 
 export default function* rootSaga() {
@@ -291,6 +341,8 @@ export default function* rootSaga() {
     fork (watchDelEvent), 
     fork (watchAddUserEvent),
     fork (watchDelUserEvent),
-    fork (watchMyEvents),
+    fork (watchMyEvents), 
+    fork (watchRegistrationUser),
+    fork (watchFiltrEvents),
   ])
 }

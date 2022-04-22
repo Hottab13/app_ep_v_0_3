@@ -2,12 +2,21 @@ import { Avatar,Statistic, Button, Image, Pagination } from "antd";
 import React,{useState,Fragment} from 'react';
 import { Container, Row, Col } from 'react-grid-system'; 
 import { _arrayBufferToBase64 } from '../../../utils/arrayBufferToBase64';
-import { AntDesignOutlined, FieldTimeOutlined } from "@ant-design/icons";
-import { NavLink } from "react-router-dom";
+import { AntDesignOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
 import moment from "moment";
+import {Filtr} from "./Filter/Filter"
 const { Countdown } = Statistic;
 
-const Events = ({ events, u_id, addUserEvent, delUserEvent, isToggleLoading }) => {
+const dateInRange = (start, end) => {
+  const date = new Date();
+  return moment.utc(start).format('DD/MM/YYYY').valueOf()
+    <= moment.utc(date).format('DD/MM/YYYY').valueOf()
+    && moment.utc(date).format('DD/MM/YYYY').valueOf()
+    <= moment.utc(end).format('DD/MM/YYYY').valueOf()
+}
+
+const Events = ({ events, u_id, addUserEvent, delUserEvent, isToggleLoading, error }) => {
   const numEachPage = 6;
   const [minValue, setMinValPage] = useState(0);
   const [maxValue, setMaxValPage] = useState(6);
@@ -15,8 +24,12 @@ const Events = ({ events, u_id, addUserEvent, delUserEvent, isToggleLoading }) =
     setMinValPage((value - 1) * numEachPage)
     setMaxValPage(value * numEachPage)
   }
+  if (!events || events.length === 0) {
+    return error ? <h2>{error}</h2> : null;
+  }
   return (<Fragment>
     <Container fluid>
+    <Filtr />
       <Row align="start" style={{ marginTop: "12px" }} >
         {events.slice(minValue, maxValue).map(
           ({
@@ -37,10 +50,18 @@ const Events = ({ events, u_id, addUserEvent, delUserEvent, isToggleLoading }) =
             <Col md={4} key={_id} style={{ padding: "5px" }} debug>
               <Row  >
                 <Col md={7} >
-                  <NavLink to={`` + _id}>
+                  <Link to={`` + _id}>
                     <h1>{name}</h1>
-                  </NavLink>
-                  <Countdown title="Событие начнёться через: "  value={ dateOfTheEvent[0]} format="D Д HH:mm:ss" onFinish={console.log("Старт!")} />
+                  </Link>
+                  <Countdown
+                  style={dateInRange(dateOfTheEvent[0],dateOfTheEvent[1])?{backgroundColor: "#87d068" }:{}}
+                    title={dateInRange(dateOfTheEvent[0],dateOfTheEvent[1])?
+                      "Событие началось: " :
+                      "Событие начнёться через: "}
+                    value={dateInRange(dateOfTheEvent[0],dateOfTheEvent[1])?
+                      dateOfTheEvent[1]:dateOfTheEvent[0]}
+                    format="D Д HH:mm:ss"
+                    onFinish={console.log("Старт!")} />
                 </Col>
                 <Col md={5} >
                   <Avatar
@@ -66,7 +87,7 @@ const Events = ({ events, u_id, addUserEvent, delUserEvent, isToggleLoading }) =
                     <Button
                       type="primary"
                       size="small"
-                      disabled={isToggleLoading}
+                      disabled={isToggleLoading | dateInRange(dateOfTheEvent[0],dateOfTheEvent[1])}
                       onClick={() => delUserEvent(_id)}
                     >
                       Отказаться
@@ -74,7 +95,7 @@ const Events = ({ events, u_id, addUserEvent, delUserEvent, isToggleLoading }) =
                     <Button
                       type="primary"
                       size="small"
-                      disabled={amountMaximum <= 0 | isToggleLoading}
+                      disabled={amountMaximum <= 0 | isToggleLoading |dateInRange(dateOfTheEvent[0],dateOfTheEvent[1])}
                       onClick={() => addUserEvent(_id)}
                     >
                       Участвовать

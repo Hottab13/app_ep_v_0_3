@@ -1,13 +1,13 @@
 import { useSelector, useDispatch } from "react-redux";
-//import News from './components/news/news';
 import { Login } from "./components/authLogin/Login.jsx";
 import EventsContainer  from "./components/Events/EventsContainer.jsx";
 import { Profile }  from "./components/Profile/ProfileConainer.jsx"; 
 import { HeaderCont }  from "./components/Haeder/Header.jsx";
-import { AddEvent }  from "./components/AddEvent/AddEvent"; 
+import { AddEvent }  from "./components/AddEvent/AddEvent";  
+import { Registration }  from "./components/Registration/Registration.jsx";
 import  MyEventsContainer   from "./components/MyEvents/MyEventsContainer.jsx";
 import { EventProfileContainer }  from "./components/EventProfile/EventProfileConainer.jsx";
-import {AUTH_USER_DATA, IS_AUTH_TRUE} from "./redux/constants"
+import {AUTH_USER_DATA} from "./redux/constants"
 import { getAccessToken } from "axios-jwt";
 import React, { useEffect, useState } from "react";
 //import './App.css';
@@ -19,17 +19,12 @@ import {
 } from "react-router-dom";
 import { Layout, Menu, Result, Spin } from 'antd';
 import { UserOutlined, ApartmentOutlined, AppstoreAddOutlined,AppstoreOutlined  } from '@ant-design/icons';
-
 const { Header, Content, Footer, Sider } = Layout;
-
 
 const App = () => {
   const accessToken = getAccessToken()
   const dispatch = useDispatch();
-  const auth = useSelector((state)=>state.authUser);
- // const { latestNews, popularNews } = useSelector(store => store?.news || {});
-  //const { latestNewsError, popularNewsError } = useSelector(store => store?.errors || {});
-  //const { _id } = useSelector((store) => store?.userData || {});*/
+  const auth = useSelector((state)=>state?.authUser || {});
   useEffect(() => {
     if (accessToken) {
       dispatch({
@@ -39,7 +34,6 @@ const App = () => {
   }, []);
   
   const [collapsed, setСollapsed] = useState(false);
-  
   /*if (!initionalized) {
     return <Loader />;
   }*/
@@ -85,7 +79,7 @@ const App = () => {
         <Content >
           <div
             className="site-layout-background"
-            style={{ padding: 24, minHeight: 360 }}
+            style={{ padding: 14, minHeight: 360 }}
           >
             <Routes>
               < Route exact path = "/profile"
@@ -96,7 +90,8 @@ const App = () => {
               <Route path="/events" element={<EventsContainer />} />
               <Route path="/events/:eventId" element={<EventProfileContainer />} /> 
               <Route path="/add-event" element={<AddEvent />} />
-              <Route path="/my-events" element={<MyEventsContainer />} />
+              <Route path="/my-events" element={<MyEventsContainer />} /> 
+              <Route path="/registration" element={<Registration />} />
               <Route
                 path="*"
                 element={
@@ -120,8 +115,3 @@ const App = () => {
 };
 
 export default App;
-/*<div>
-      <button onClick={handleNews}>Get News</button>
-      <News news={latestNews} error={latestNewsError} title="Latest News" />
-      <News news={popularNews} error={popularNewsError} title="Popular News" />
-    </div>*/

@@ -34,7 +34,7 @@ export const HeaderCont = (props) => {
     dispatch(logOut());
     clearAuthTokens();
   };
-  if(!isAuth) return <Navigate to={"/login"}/>
+  //if(!isAuth) return <Navigate to={"/login"}/>
   /*const onFilterCheang = (filter: FilterType) => {
     dispatch(getNests(filter));
   };*/

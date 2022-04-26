@@ -90,8 +90,21 @@ export const postRegistrationUser = async (registrationData) => {
   );
   return respons;
 };
+
+const parsFilter = (filtrData)=>{
+  let formData = new FormData();
+  debugger
+  if (filtrData.constructor === Array | filtrData !==[]) {
+    debugger
+    for (let i = 0; i < filtrData.length; i++) {
+debugger
+      formData.append(filtrData[i][0], filtrData[i][1]);
+    }
+  } 
+  return formData
+}
 export const postFiltrEvents = async (filtrData) => {
-  //регистрация юзера
-  const respons = await eventsAPI.postFiltrEvents(parsObjFormData(filtrData));
+  const respons = await eventsAPI.postFiltrEvents(parsFilter(filtrData));
+  debugger
   return respons;
 };

@@ -57,9 +57,9 @@ let initialState = {
     amountMaximum: "",
   },
   successUpdateMemberEvent: false,
-  arrfiltrEvents: {
+  //arrfiltrEvents: {
     filtrEvents: "",
-  },
+  //},
 };
 
 const events = (state = initialState, { type, payload }) => {
@@ -209,9 +209,17 @@ const events = (state = initialState, { type, payload }) => {
       debugger;
       return {
         ...state,
-        arrfiltrEvents: {
-          filtrEvents: payload,
-        },
+        filtrEvents: payload
+        /*arrfiltrEvents: {
+          filtrEvents: payload.map(e=>{
+            e.forEach((item, i, arr)=>{
+              const x = item[i===0];
+              const y = item[i===1];
+              debugger
+               e[0]={x:y}
+            })
+          }),
+        },*/
       };
     default:
       return state;

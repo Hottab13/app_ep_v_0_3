@@ -11,7 +11,7 @@ import { filtrEvents } from "../../../../redux/actions/actionCreator";
 const options = [
   {
     label: "Город",
-    value: "citi",
+    value: "city",
     children: optionsCiti,
   },
   {

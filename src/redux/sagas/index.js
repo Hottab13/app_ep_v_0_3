@@ -286,22 +286,27 @@ export function* hendlerRegistrationUser() {
 export function* hendlerFiltrEvents() {
   // фильтр событий
   try {
-    const { arrfiltrEvents } = yield select(({ events }) => events);
+    yield put(isToggleLoadingAuth(true));
+    const { filtrEvents } = yield select(({ events }) => events);
     debugger;
-    const res = yield call(postFiltrEvents, arrfiltrEvents);
+    const res = yield call(postFiltrEvents, filtrEvents);
     debugger;
     if (res.status === 200) {
       debugger;
-      yield put(isToggleLoadingAuth(false));
-      yield put(isToggleLoading(false)); // отключить прелоудер
-      yield setAuthUser(res.data.accessToken); // сохраняем токен в куки
-      yield put({ type: IS_AUTH_TRUE }); // делаем стор авторизованным
+      if(!res.data || res.data.length === 0){
+        debugger
+        const events = yield call(getEvents);
+        yield put(setEvents(events));
+        yield put(isToggleLoadingAuth(false));
+      }else{
+        debugger
+        yield put(setEvents(res.data));
+        yield put(isToggleLoadingAuth(false));
+      }
+      
     } else {
       yield put(isToggleLoadingAuth(false));
       yield put(isToggleLoading(false)); // отключить прелоудер
-      yield put(errAuth(res.data.errorText));
-      yield delay(5);
-      yield put(clearToggleAuth());
     }
   } catch {
     // yield put({ type: SET_POPULAR_NEWS_ERROR, payload: 'Error fetching popular news' });

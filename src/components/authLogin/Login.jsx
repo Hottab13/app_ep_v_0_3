@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Link } from "react-router-dom";
 import { reduxForm } from "redux-form";
-import { loginUser } from "../../redux/actions/actionCreator";
+import { loginUser } from "../../redux/actions/authActionCreator";
 import { createField } from "../../utils/createFields";
 import { maxLengthCreator, requiredField, email } from "../../utils/validators";
 import { AInputPass, AInput, ACheckbox } from "../../utils/makeField";

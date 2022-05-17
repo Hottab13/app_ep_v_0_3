@@ -17,4 +17,14 @@ export const optionsType = [{
 }, {
     label: 'Релакс',
     value: "Релакс"
+}]; 
+export const optionsStatus = [{
+    label: 'Ожидается...',
+    //value: new Date()
+}, {
+    label: 'Активное событие',
+    value: new Date()
+}, {
+    label: 'Завершённые',
+    value: new Date()
 }];

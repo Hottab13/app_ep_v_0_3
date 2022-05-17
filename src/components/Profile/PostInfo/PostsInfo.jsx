@@ -13,6 +13,7 @@ import { Carousel, Col, Row } from "antd";
 import { Upload, message, Button } from "antd";
 import { EditOutlined, UploadOutlined } from "@ant-design/icons";
 import Avatar from "antd/lib/avatar/avatar";
+import ava from "../../../assets/images/ava.png";
 import moment from "moment";
 import PicturesWall from "./UploadPhotoAva";
 
@@ -65,7 +66,7 @@ status={postUser.status} updateStatus={updateStatus}/>*/}
                 src={
                   `data:image/jpg;base64,${_arrayBufferToBase64(
                     profileUser.imgAvatar?.img_1000_1000?.data?.data
-                  )}` || Avatar
+                    )}` || ava
                 }
               />
             </div>

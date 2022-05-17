@@ -129,7 +129,8 @@ const Events = ({
                           disabled={
                             (amountMaximum <= 0) |
                             isToggleLoading |
-                            dateInRange(dateOfTheEvent[0], dateOfTheEvent[1])
+                            dateInRange(dateOfTheEvent[0], dateOfTheEvent[1] | 
+                              moment.utc(new Date).format("DD/MM/YYYY").valueOf() >= moment.utc(dateOfTheEvent[1]).format("DD/MM/YYYY").valueOf() )
                           }
                           onClick={() => addUserEvent(_id)}
                         >

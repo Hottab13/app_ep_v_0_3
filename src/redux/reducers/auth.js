@@ -34,7 +34,6 @@ const authUser = (state = initialState, { type, payload }) => {
           email: payload.login,
           password: payload.pass,
         },
-        isToggleLoading: true,
       };
     case REGISTRATION_USER:
       debugger;

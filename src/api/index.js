@@ -38,7 +38,7 @@ export const putUpdataUserData = async (userData, uploadPhotoAvaUser) => {
 export const getEvents = async () => {
   // дёргаем события
   const respons = await eventsAPI.getEvents();
-  return respons.data;
+  return respons;
 };
 export const postNewEvent = async (id, eventData, file) => {
   // создаём событие

@@ -9,15 +9,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { Typography, Space } from "antd";
 import { Row, Col } from "react-grid-system";
 import { logOut } from "../../redux/actions/actionCreator";
-//import ava from "../../assets/images/ava.png";
+import ava from "../../assets/images/ava.png";
 import React, { useState } from "react";
 import { clearAuthTokens } from "axios-jwt";
 
-const { SubMenu } = Menu;
-
-const { Text } = Typography;
+//const { Text } = Typography;
 
 export const HeaderCont = (props) => {
+  const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   const showDrawer = () => {
     setVisible(true);
@@ -26,19 +25,14 @@ export const HeaderCont = (props) => {
     setVisible(false);
   };
   const { isAuth } = useSelector((state) => state.authUser);
-  //const img=useSelector((state:AppStateType)=>state.postsPage.photo_1000)
-  const dispatch = useDispatch();
+  const userProfileData = useSelector((state)=>state.userProfileData)
   const logOutColbeck = () => {
     dispatch(logOut());
     clearAuthTokens();
   };
-  //if(!isAuth) return <Navigate to={"/login"}/>
-  /*const onFilterCheang = (filter: FilterType) => {
-    dispatch(getNests(filter));
-  };*/
   return (
     <Header
-      className="site-layout-background"
+      //className="site-layout-background"
       style={{ padding: 0, position: "fixed", zIndex: 1, width: "100%" }}
     >
       {/*className="header" */}
@@ -53,8 +47,8 @@ export const HeaderCont = (props) => {
 </Menu>*/}
         </Col>
         <Col md={1}>
-          {/*login.isAuth ? <Avatar size={40} src={`data:image/jpg;base64,${img}` || ava}>
-            {login.name}</Avatar> : ""*/}
+          {isAuth ? <Avatar size={45} src={`data:image/jpg;base64,${userProfileData.userData.imgAvatar?.img_200_200}` || ava}>
+            {userProfileData.userData.name}</Avatar> : ""}
         </Col>
         <Col md={2}>
           {isAuth ? (

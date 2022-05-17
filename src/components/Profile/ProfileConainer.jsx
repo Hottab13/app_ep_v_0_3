@@ -23,6 +23,7 @@ export const Profile = () => {
     if (accessToken) dispatch({ type: AUTH_USER_DATA }); // если id нету, значит дергаем данные по токену
   };
   const uploadPhoto = (imgData) => {
+    debugger
     dispatch(uploadPhotoAva(imgData));
   };
   useEffect(() => {

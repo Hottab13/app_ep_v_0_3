@@ -4,7 +4,7 @@ import { ACascader } from "../../../../utils/makeField";
 import { Field, reduxForm } from "redux-form";
 import { Row, Col } from "react-grid-system";
 //import Cascader, { CascaderProps } from 'antd/lib/cascader';
-import { optionsCiti, optionsType } from "../../../../assets/data/index";
+import { optionsCiti, optionsType, optionsStatus } from "../../../../assets/data/index";
 import { useDispatch, useSelector } from "react-redux";
 import { filtrEvents } from "../../../../redux/actions/actionCreator";
 
@@ -18,6 +18,11 @@ const options = [
     label: "Тип",
     value: "type",
     children: optionsType,
+  },
+  {
+    label: "Статус",
+    value: "status",
+    children: optionsStatus,
   },
 ];
 

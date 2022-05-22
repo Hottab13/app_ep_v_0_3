@@ -1,24 +1,24 @@
 import { authAPI, userAPI, profileAPI, eventsAPI } from "./api";
-import parsObjFormData from "../utils/parsObjFormData";
+import { parsObjFormData, parsFilter } from "../utils/parsObjFormData";
 
 export const getAuthTokenUser = async (auth) => {
-  // дергаем токен по логину
+  // get token
   const respons = await authAPI.getAuthTokenUser(parsObjFormData(auth));
   return respons;
 };
 export const getAuthData = async () => {
-  // дергаем данные юзера по токену
+  // get user data is token
   const respons = await userAPI.getAuthTokenUser();
   return respons;
 };
 export const getUserData = async (userId) => {
-  // дергаем данные юзера по id
+  // get user data is id
   const respons = await userAPI.getUserData(userId);
   debugger;
   return respons;
 };
 export const putUpdataUserData = async (userData, uploadPhotoAvaUser) => {
-  // обновить данные юзера
+  // update user data
   let formData = new FormData();
 
   Object.keys(userData).forEach((key) => {
@@ -36,14 +36,13 @@ export const putUpdataUserData = async (userData, uploadPhotoAvaUser) => {
   return respons;
 };
 export const getEvents = async () => {
-  // дёргаем события
+  // get events
   const respons = await eventsAPI.getEvents();
   return respons;
 };
 export const postNewEvent = async (id, eventData, file) => {
-  // создаём событие
+  // create event
   let formData = new FormData();
-
   Object.keys(eventData).forEach((key) => {
     if (eventData[key].constructor === Array) {
       let arr = eventData[key];
@@ -61,17 +60,17 @@ export const postNewEvent = async (id, eventData, file) => {
   return respons;
 };
 export const getEvent = async (eventId) => {
-  // дёргаем профиль события
+  // get data event
   const respons = await eventsAPI.getEventProfile(eventId);
   return respons.data;
 };
 export const delEvent = async (eventId) => {
-  // удаляем событие
+  // del event
   const respons = await eventsAPI.delEvent(eventId);
   return respons.data;
 };
 export const updateMemberEvent = async (newIdEvent, eventData) => {
-  // обновление участников события
+  // update members events
   const respons = await eventsAPI.updateMemberEvent(
     newIdEvent,
     parsObjFormData(eventData)
@@ -79,32 +78,19 @@ export const updateMemberEvent = async (newIdEvent, eventData) => {
   return respons;
 };
 export const getMyEvents = async (id) => {
-  // дёргаем мои события
+  // get user event
   const respons = await eventsAPI.getMyEvents(id);
   return respons;
 };
 export const postRegistrationUser = async (registrationData) => {
-  //регистрация юзера
+  //registration user
   const respons = await authAPI.postRegistrationUser(
     parsObjFormData(registrationData)
   );
   return respons;
 };
-
-const parsFilter = (filtrData)=>{
-  let formData = new FormData();
-  debugger
-  if (filtrData.constructor === Array | filtrData !==[]) {
-    debugger
-    for (let i = 0; i < filtrData.length; i++) {
-debugger
-      formData.append(filtrData[i][0], filtrData[i][1]);
-    }
-  } 
-  return formData
-}
 export const postFiltrEvents = async (filtrData) => {
+  // filter event
   const respons = await eventsAPI.postFiltrEvents(parsFilter(filtrData));
-  debugger
   return respons;
 };

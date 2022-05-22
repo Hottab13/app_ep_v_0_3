@@ -1,4 +1,4 @@
-const parsObjFormData = (data) => {
+export const parsObjFormData = (data) => {
   let formData = new FormData();
   Object.keys(data).forEach((key) => {
     if (data[key].constructor === Array) {
@@ -12,4 +12,12 @@ const parsObjFormData = (data) => {
   });
   return formData;
 };
-export default parsObjFormData;
+export const parsFilter = (filtrData) => {
+  let formData = new FormData();
+  if ((filtrData.constructor === Array) | (filtrData !== [])) {
+    for (let i = 0; i < filtrData.length; i++) {
+      formData.append(filtrData[i][0], filtrData[i][1]);
+    }
+  }
+  return formData;
+};

@@ -46,7 +46,7 @@ export function* hendlerEvents() {
     } else {
       yield put({
         type: SET_EVENT_ERROR,
-        payload: res.data.errorText,
+        payload: res.data?errorText
       });
       yield put(isToggleLoading(false));
     }

@@ -9,7 +9,8 @@ import Events from "./Events/events";
 
 const EventsContainer = () => {
   const dispatch = useDispatch();
-  const { isToggleLoading } = useSelector((state) => state.authUser);
+  const { eventError } = useSelector((state) => state.errors);
+  const { isToggleLoading } = useSelector((state) => state.authUser); 
   const events = useSelector((state) => state.events.eventsData);
   const { successUpdateMemberEvent } = useSelector((state) => state.events);
   const { _id } = useSelector((state) => state.userProfileData.userData);
@@ -31,6 +32,7 @@ const EventsContainer = () => {
         u_id={_id}
         events={events}
         isToggleLoading={isToggleLoading}
+        error={eventError}
       />
     </React.Fragment>
   );
